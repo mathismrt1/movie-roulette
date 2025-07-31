@@ -1,23 +1,32 @@
+/* Structure générale */
+html, body {
+  height: auto;
+  min-height: 100vh;
+  overflow-y: auto;
+}
+
 body {
   font-family: Arial, sans-serif;
   max-width: 480px;
-  margin: 3rem auto;
+  margin: 2rem auto;
   padding: 0 1.5rem;
   background: #f9f9f9;
   color: #222;
   text-align: center;
 }
 
+/* Titre */
 h1 {
   color: #3a3a3a;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem; /* Réduit */
 }
 
+/* Barre d’ajout */
 .input-wrapper {
   display: flex;
   justify-content: center;
   gap: 0.75rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 0.75rem; /* Réduit */
 }
 
 input#movieInput {
@@ -35,6 +44,7 @@ input#movieInput:focus {
   outline: none;
 }
 
+/* Boutons */
 button {
   cursor: pointer;
   border: none;
@@ -50,11 +60,24 @@ button:hover {
   background-color: #0056b3;
 }
 
+/* Bouton de tirage */
 #pickButton {
-  margin-top: 1.5rem;
-  margin-bottom: 1rem; /* Réduit l’espace au-dessus du résultat */
+  margin-top: 1rem;        /* Réduit */
+  margin-bottom: 0.5rem;   /* Réduit */
 }
 
+/* Message choisi */
+#pickedMovie {
+  font-weight: bold;
+  font-size: 1.5rem;
+  background-color: #e6f0ff;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  margin-bottom: 1rem; /* Réduit */
+}
+
+/* Liste des films */
 #movieList {
   background: white;
   border: 1px solid #ddd;
@@ -63,12 +86,13 @@ button:hover {
   padding: 1rem;
   text-align: left;
   list-style: none;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem; /* Réduit */
 
-  max-height: none;
-  overflow-y: visible;
+  max-height: none !important;
+  overflow-y: visible !important;
 }
 
+/* Éléments de la liste */
 #movieList li {
   padding: 0.75rem 0;
   border-bottom: 1px solid #eee;
@@ -90,17 +114,8 @@ button:hover {
   cursor: pointer;
 }
 
-#pickedMovie {
-  font-weight: bold;
-  font-size: 1.5rem;
-  background-color: #e6f0ff; /* bleu très pâle */
-  padding: 1rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-  margin-bottom: 2rem;
-}
-
+/* Zone de feedback */
 #feedback {
   height: 24px;
-  margin-bottom: 1rem;
+  margin-bottom: 0.75rem; /* Réduit */
 }
