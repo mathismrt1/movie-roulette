@@ -140,7 +140,7 @@ function showFeedback(message, success = true) {
 
   setTimeout(() => {
     feedback.textContent = "";
-  }, 2000); // disparaît après 2 secondes
+  }, 3000); // disparaît après 3 secondes
 }
 
 // Event listeners
