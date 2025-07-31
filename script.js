@@ -1,56 +1,72 @@
-// Chargement initial
-let films = JSON.parse(localStorage.getItem("films")) || [];
-const listeFilms = document.getElementById("listeFilms");
-const filmInput = document.getElementById("filmInput");
-const filmChoisi = document.getElementById("filmChoisi");
+let movies = JSON.parse(localStorage.getItem("movies")) || [];
+const movieList = document.getElementById("movieList");
+const movieInput = document.getElementById("movieInput");
+const pickedMovie = document.getElementById("pickedMovie");
+const addButton = document.getElementById("addButton");
+const pickButton = document.getElementById("pickButton");
 
-// Afficher la liste
-function afficherFilms() {
-  listeFilms.innerHTML = "";
-  films.forEach((film, index) => {
+// Add movie on Enter key
+movieInput.addEventListener("keypress", function (event) {
+  if (event.key === "Enter") {
+    addMovie();
+  }
+});
+
+// Add movie on button click
+addButton.addEventListener("click", addMovie);
+
+// Display the list on load
+function renderMovies() {
+  movieList.innerHTML = "";
+  movies.forEach((movie, index) => {
     const li = document.createElement("li");
-    li.textContent = film;
-    const btn = document.createElement("button");
-    btn.textContent = "❌";
-    btn.onclick = () => supprimerFilm(index);
-    li.appendChild(btn);
-    listeFilms.appendChild(li);
+    li.textContent = movie;
+
+    const deleteBtn = document.createElement("button");
+    deleteBtn.textContent = "✖";
+    deleteBtn.onclick = () => deleteMovie(index);
+
+    li.appendChild(deleteBtn);
+    movieList.appendChild(li);
   });
-  localStorage.setItem("films", JSON.stringify(films));
+
+  localStorage.setItem("movies", JSON.stringify(movies));
 }
 
-// Ajouter un film
-function ajouterFilm() {
-  const film = filmInput.value.trim();
-  if (film) {
-    films.push(film);
-    filmInput.value = "";
-    afficherFilms();
+// Add a movie
+function addMovie() {
+  const movie = movieInput.value.trim();
+  if (movie !== "") {
+    movies.push(movie);
+    movieInput.value = "";
+    renderMovies();
   }
 }
 
-// Supprimer un film
-function supprimerFilm(index) {
-  films.splice(index, 1);
-  afficherFilms();
+// Delete a movie
+function deleteMovie(index) {
+  movies.splice(index, 1);
+  renderMovies();
 }
 
-// Tirer un film aléatoirement
-function tirerFilm() {
-  if (films.length === 0) {
-    filmChoisi.textContent = "Ajoute des films d'abord !";
+// Pick a random movie with animation
+pickButton.addEventListener("click", () => {
+  if (movies.length === 0) {
+    pickedMovie.textContent = "Please add some movies first!";
     return;
   }
 
-  let i = 0;
-  const max = 20 + Math.floor(Math.random() * 20); // nombre d'itérations aléatoires
+  let counter = 0;
+  const max = 15 + Math.floor(Math.random() * 15);
 
   const interval = setInterval(() => {
-    const alea = Math.floor(Math.random() * films.length);
-    filmChoisi.textContent = "🎲 " + films[alea];
-    i++;
-    if (i > max) clearInterval(interval);
-  }, 100); // vitesse d'animation
-}
+    const randomIndex = Math.floor(Math.random() * movies.length);
+    pickedMovie.textContent = "🎯 " + movies[randomIndex];
+    counter++;
+    if (counter >= max) {
+      clearInterval(interval);
+    }
+  }, 100);
+});
 
-afficherFilms();
+renderMovies();
