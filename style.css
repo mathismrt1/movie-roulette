@@ -6,6 +6,9 @@ body {
   background: #f9f9f9;
   color: #222;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
 h1 {
