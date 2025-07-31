@@ -19,6 +19,15 @@ const db = getDatabase(app);
 
 // DOM elements
 const movieInput = document.getElementById("movieInput");
+// remove placeholder when clicked
+movieInput.addEventListener("focus", () => {
+  movieInput.placeholderBackup = movieInput.placeholder;
+  movieInput.placeholder = "";
+});
+movieInput.addEventListener("blur", () => {
+  movieInput.placeholder = movieInput.placeholderBackup || "Add a movie...";
+});
+
 const addButton = document.getElementById("addButton");
 const movieList = document.getElementById("movieList");
 const pickButton = document.getElementById("pickButton");
@@ -40,14 +49,38 @@ function loadMovies() {
     movieList.innerHTML = "";
     const data = snapshot.val();
     if (data) {
-      Object.values(data).forEach((movie) => {
+      Object.entries(data).forEach(([key, movie]) => {
         const li = document.createElement("li");
         li.textContent = movie.title;
+        li.style.position = "relative";
+
+        // Créer bouton supprimer
+        const delBtn = document.createElement("button");
+        delBtn.textContent = "✖";
+        delBtn.style.position = "absolute";
+        delBtn.style.right = "8px";
+        delBtn.style.top = "50%";
+        delBtn.style.transform = "translateY(-50%)";
+        delBtn.style.border = "none";
+        delBtn.style.background = "transparent";
+        delBtn.style.color = "#c00";
+        delBtn.style.fontWeight = "bold";
+        delBtn.style.cursor = "pointer";
+        delBtn.title = "Delete movie";
+
+        delBtn.addEventListener("click", () => {
+          // Supprimer le film dans Firebase avec la clé
+          const movieRef = ref(db, `movies/${key}`);
+          set(movieRef, null);
+        });
+
+        li.appendChild(delBtn);
         movieList.appendChild(li);
       });
     }
   });
 }
+
 
 // Pick a random movie from the list
 function pickRandomMovie() {
@@ -56,10 +89,25 @@ function pickRandomMovie() {
     const data = snapshot.val();
     if (!data) return;
     const movies = Object.values(data).map(m => m.title);
-    const randomIndex = Math.floor(Math.random() * movies.length);
-    pickedMovie.textContent = "🎯 " + movies[randomIndex];
+    if (movies.length === 0) return;
+
+    let count = 0;
+    const duration = 5000; // 5 sec
+    const intervalTime = 100; // ms
+
+    const interval = setInterval(() => {
+      pickedMovie.textContent = movies[count % movies.length];
+      count++;
+    }, intervalTime);
+
+    setTimeout(() => {
+      clearInterval(interval);
+      const randomIndex = Math.floor(Math.random() * movies.length);
+      pickedMovie.textContent = "🎯 " + movies[randomIndex];
+    }, duration);
   });
 }
+
 
 // Event listeners
 addButton.addEventListener("click", () => addMovie(movieInput.value));
