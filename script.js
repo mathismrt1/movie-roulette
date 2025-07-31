@@ -90,7 +90,7 @@ function pickRandomMovie() {
     if (movies.length === 0) return;
 
     let count = 0;
-    let delay = 50;           // délai rapide constant (50ms)
+    let delay = 100;           // délai rapide constant (50ms)
     const maxDelay = 1000;    // délai max pour ralentir
     const increment = 50;     // augmentation du délai à chaque tour
     const fastDuration = 3000; // durée en ms de la phase rapide
