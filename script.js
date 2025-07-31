@@ -124,7 +124,7 @@ function pickRandomMovie() {
     let count = 0;
     let delay = 100;
     const maxDelay = 500;
-    const increment = 25;
+    const increment = 50;
     const fastDuration = 3000;
     const startTime = Date.now();
 
