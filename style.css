@@ -2,6 +2,7 @@ body {
   font-family: Arial, sans-serif;
   max-width: 480px;
   margin: 3rem auto;
+  padding: 0 1.5rem;
   background: #f9f9f9;
   color: #222;
   text-align: center;
@@ -50,7 +51,8 @@ button:hover {
 }
 
 #pickButton {
-  margin: 1.5rem 0;
+  margin-top: 1.5rem;
+  margin-bottom: 1rem; /* Réduit l’espace au-dessus du résultat */
 }
 
 #movieList {
@@ -61,9 +63,11 @@ button:hover {
   padding: 1rem;
   text-align: left;
   list-style: none;
-  max-height: 300px;
-  overflow-y: auto;
   margin-bottom: 2rem;
+
+  /* Supprime scroll interne */
+  max-height: none;
+  overflow-y: visible;
 }
 
 #movieList li {
