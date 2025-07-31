@@ -18,7 +18,7 @@ body {
 /* Titre */
 h1 {
   color: #3a3a3a;
-  margin-bottom: 1rem; /* Réduit */
+  margin-bottom: 1rem;
 }
 
 /* Barre d’ajout */
@@ -26,7 +26,7 @@ h1 {
   display: flex;
   justify-content: center;
   gap: 0.75rem;
-  margin-bottom: 0.75rem; /* Réduit */
+  margin-bottom: 0.75rem;
 }
 
 input#movieInput {
@@ -62,8 +62,8 @@ button:hover {
 
 /* Bouton de tirage */
 #pickButton {
-  margin-top: 1rem;        /* Réduit */
-  margin-bottom: 0.5rem;   /* Réduit */
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 
 /* Message choisi */
@@ -74,7 +74,7 @@ button:hover {
   padding: 1rem;
   border-radius: 8px;
   box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-  margin-bottom: 1rem; /* Réduit */
+  margin-bottom: 1rem; 
 }
 
 /* Liste des films */
@@ -86,7 +86,7 @@ button:hover {
   padding: 1rem;
   text-align: left;
   list-style: none;
-  margin-bottom: 1rem; /* Réduit */
+  margin-bottom: 1rem;
 
   max-height: none !important;
   overflow-y: visible !important;
@@ -117,5 +117,5 @@ button:hover {
 /* Zone de feedback */
 #feedback {
   height: 24px;
-  margin-bottom: 0.75rem; /* Réduit */
+  margin-bottom: 0.75rem;
 }
