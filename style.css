@@ -6,19 +6,18 @@ body {
   background: #f9f9f9;
   color: #222;
   text-align: center;
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem; /* Ajoute un espacement régulier entre tous les enfants */
 }
 
 h1 {
   color: #3a3a3a;
+  margin-bottom: 1.5rem;
 }
 
 .input-wrapper {
   display: flex;
   justify-content: center;
   gap: 0.75rem;
+  margin-bottom: 1.5rem;
 }
 
 input#movieInput {
@@ -51,6 +50,10 @@ button:hover {
   background-color: #0056b3;
 }
 
+#pickButton {
+  margin: 1.5rem 0;
+}
+
 #movieList {
   background: white;
   border: 1px solid #ddd;
@@ -59,6 +62,9 @@ button:hover {
   padding: 1rem;
   text-align: left;
   list-style: none;
+  max-height: 300px;
+  overflow-y: auto;
+  margin-bottom: 2rem;
 }
 
 #movieList li {
@@ -69,12 +75,30 @@ button:hover {
   position: relative;
 }
 
+#movieList button {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  background: transparent;
+  color: #c00;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
 #pickedMovie {
   font-weight: bold;
   font-size: 1.5rem;
-  color: #007bff;
+  background-color: #e6f0ff; /* bleu très pâle */
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  margin-bottom: 2rem;
 }
 
 #feedback {
   height: 24px;
+  margin-bottom: 1rem;
 }
