@@ -93,8 +93,8 @@ function pickRandomMovie() {
 
     let count = 0;
     let delay = 50;       // délai initial en ms
-    const maxDelay = 800; // délai max (ralentissement)
-    const increment = 60; // augmentation progressive du délai
+    const maxDelay = 2000; // délai max (ralentissement)
+    const increment = 200; // augmentation progressive du délai
 
     function spin() {
       pickedMovie.textContent = movies[count % movies.length];
