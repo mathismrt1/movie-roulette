@@ -43,7 +43,7 @@ function addMovie(title) {
   movieInput.value = "";
 }
 
-// Load and display movies from Firebase in real-time
+// Load and display movies from Firebase
 function loadMovies() {
   const moviesRef = ref(db, "movies");
   onValue(moviesRef, (snapshot) => {
