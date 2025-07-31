@@ -1,20 +1,23 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Choisis un film</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Movie Picker</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <h1>🎥 Ma liste de films</h1>
+  <h1>🎬 Movie Picker</h1>
 
-  <input type="text" id="filmInput" placeholder="Ajouter un film..." />
-  <button onclick="ajouterFilm()">Ajouter</button>
+  <div class="input-wrapper">
+    <input type="text" id="movieInput" placeholder="Add a movie..." />
+    <button id="addButton">Add</button>
+  </div>
 
-  <ul id="listeFilms"></ul>
+  <ul id="movieList"></ul>
 
-  <button id="tirageBtn" onclick="tirerFilm()">🎯 Choisir un film</button>
-  <p id="filmChoisi"></p>
+  <button id="pickButton">🎲 Pick a Movie</button>
+  <p id="pickedMovie"></p>
 
   <script src="script.js"></script>
 </body>
