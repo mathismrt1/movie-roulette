@@ -65,7 +65,6 @@ button:hover {
   list-style: none;
   margin-bottom: 2rem;
 
-  /* Supprime scroll interne */
   max-height: none;
   overflow-y: visible;
 }
