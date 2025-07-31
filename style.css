@@ -1,55 +1,75 @@
 body {
   font-family: Arial, sans-serif;
-  text-align: center;
-  margin: 30px;
+  max-width: 480px;
+  margin: 2rem auto;
+  padding: 0 1rem;
   background: #f9f9f9;
-  color: #333;
+  color: #222;
+  text-align: center;
+}
+
+h1 {
+  margin-bottom: 1.5rem;
+  color: #3a3a3a;
 }
 
 .input-wrapper {
-  margin: 20px auto;
   display: flex;
   justify-content: center;
-  gap: 10px;
+  margin-bottom: 1rem;
+  gap: 0.5rem;
 }
 
-input {
-  padding: 10px;
-  font-size: 1em;
-  border-radius: 5px;
-  border: 1px solid #ccc;
+input#movieInput {
+  flex-grow: 1;
+  padding: 0.5rem 0.75rem;
+  font-size: 1rem;
+  border: 2px solid #ccc;
+  border-radius: 6px;
+  text-align: center;
+  transition: border-color 0.3s;
+}
+
+input#movieInput:focus {
+  border-color: #007bff;
+  outline: none;
 }
 
 button {
-  padding: 10px 20px;
-  font-size: 1em;
-  border-radius: 5px;
-  background-color: #3498db;
-  color: white;
-  border: none;
   cursor: pointer;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  border-radius: 6px;
+  transition: background-color 0.3s;
 }
 
 button:hover {
-  background-color: #2980b9;
+  background-color: #0056b3;
 }
 
-ul {
+#movieList {
   list-style: none;
   padding: 0;
+  margin-top: 1rem;
+  text-align: left;
+  max-height: 240px;
+  overflow-y: auto;
+  border-top: 1px solid #ccc;
 }
 
-li {
-  padding: 10px;
-  background-color: #fff;
-  margin: 5px auto;
-  width: 200px;
-  border-radius: 5px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+#movieList li {
+  padding: 0.4rem 0;
+  border-bottom: 1px solid #eee;
+  font-size: 1.1rem;
+  color: #444;
 }
 
 #pickedMovie {
-  font-size: 1.5em;
-  margin-top: 20px;
-  color: #27ae60;
+  margin-top: 1rem;
+  font-weight: bold;
+  font-size: 1.3rem;
+  color: #007bff;
 }
