@@ -94,7 +94,7 @@ function pickRandomMovie() {
     let count = 0;
     let delay = 50;       // délai initial en ms
     const maxDelay = 800; // délai max (ralentissement)
-    const increment = 30; // augmentation progressive du délai
+    const increment = 60; // augmentation progressive du délai
 
     function spin() {
       pickedMovie.textContent = movies[count % movies.length];
@@ -106,7 +106,7 @@ function pickRandomMovie() {
       } else {
         // Fin du tirage, choix final au hasard
         const randomIndex = Math.floor(Math.random() * movies.length);
-        pickedMovie.textContent = "🎯 " + movies[randomIndex];
+        pickedMovie.textContent = movies[randomIndex];
       }
     }
 
