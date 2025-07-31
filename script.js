@@ -5,17 +5,14 @@ const pickedMovie = document.getElementById("pickedMovie");
 const addButton = document.getElementById("addButton");
 const pickButton = document.getElementById("pickButton");
 
-// Add movie on Enter key
+addButton.addEventListener("click", addMovie);
+
 movieInput.addEventListener("keypress", function (event) {
   if (event.key === "Enter") {
     addMovie();
   }
 });
 
-// Add movie on button click
-addButton.addEventListener("click", addMovie);
-
-// Display the list on load
 function renderMovies() {
   movieList.innerHTML = "";
   movies.forEach((movie, index) => {
@@ -33,7 +30,6 @@ function renderMovies() {
   localStorage.setItem("movies", JSON.stringify(movies));
 }
 
-// Add a movie
 function addMovie() {
   const movie = movieInput.value.trim();
   if (movie !== "") {
@@ -43,13 +39,11 @@ function addMovie() {
   }
 }
 
-// Delete a movie
 function deleteMovie(index) {
   movies.splice(index, 1);
   renderMovies();
 }
 
-// Pick a random movie with animation
 pickButton.addEventListener("click", () => {
   if (movies.length === 0) {
     pickedMovie.textContent = "Please add some movies first!";
