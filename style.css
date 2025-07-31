@@ -40,9 +40,9 @@ button {
   border: none;
   background-color: #007bff;
   color: white;
-  /*padding: 0.65rem 1.25rem;*/
+  padding: 0.65rem 1.25rem;
   font-size: 1.1rem;
-  border-radius: 6px;
+  /*border-radius: 6px;*/
   transition: background-color 0.3s;
 }
 
