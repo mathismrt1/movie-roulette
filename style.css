@@ -59,10 +59,10 @@ button:hover {
 }
 
 #movieList li {
-  padding: 0.6rem 0;
+  padding: 0.75rem 0;
   border-bottom: 1px solid #eee;
   font-size: 1.15rem;
-  color: #444;
+  color: #333;
   position: relative;
 }
 
