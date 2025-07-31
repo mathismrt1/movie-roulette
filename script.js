@@ -37,48 +37,59 @@ const pickedMovie = document.getElementById("pickedMovie");
 // Add a movie to the database
 function addMovie(title) {
   if (!title.trim()) return;
+
   const moviesRef = ref(db, "movies");
   const newMovieRef = push(moviesRef);
-  set(newMovieRef, { title });
-  movieInput.value = "";
+  set(newMovieRef, { title }).then(() => {
+    movieInput.value = "";
+    showFeedback("✔️ Movie added!", true);
+  }).catch(() => {
+    showFeedback("❌ Error adding movie.", false);
+  });
 }
 
 // Load and display movies from Firebase
 function loadMovies() {
   const moviesRef = ref(db, "movies");
+
   onValue(moviesRef, (snapshot) => {
     movieList.innerHTML = "";
     const data = snapshot.val();
+
     if (data) {
-      Object.entries(data).forEach(([key, movie]) => {
-        const li = document.createElement("li");
-        li.textContent = movie.title;
+      Object.entries(data)
+        .sort((a, b) => a[1].title.localeCompare(b[1].title))
+        .forEach(([key, movie]) => {
+          const li = document.createElement("li");
+          li.textContent = movie.title;
+          li.style.position = "relative";
 
-        // Create delete button
-        const delBtn = document.createElement("button");
-        delBtn.textContent = "✖";
-        delBtn.style.position = "absolute";
-        delBtn.style.right = "8px";
-        delBtn.style.top = "50%";
-        delBtn.style.transform = "translateY(-50%)";
-        delBtn.style.border = "none";
-        delBtn.style.background = "transparent";
-        delBtn.style.color = "#c00";
-        delBtn.style.fontWeight = "bold";
-        delBtn.style.cursor = "pointer";
-        delBtn.title = "Delete movie";
+          // Create delete button
+          const delBtn = document.createElement("button");
+          delBtn.textContent = "✖";
+          delBtn.style.position = "absolute";
+          delBtn.style.right = "8px";
+          delBtn.style.top = "50%";
+          delBtn.style.transform = "translateY(-50%)";
+          delBtn.style.border = "none";
+          delBtn.style.background = "transparent";
+          delBtn.style.color = "#c00";
+          delBtn.style.fontWeight = "bold";
+          delBtn.style.cursor = "pointer";
+          delBtn.title = "Delete movie";
 
-        delBtn.addEventListener("click", () => {
-          const movieRef = ref(db, `movies/${key}`);
-          set(movieRef, null);
+          delBtn.addEventListener("click", () => {
+            const movieRef = ref(db, `movies/${key}`);
+            set(movieRef, null);
+          });
+
+          li.appendChild(delBtn);
+          movieList.appendChild(li);
         });
-
-        li.appendChild(delBtn);
-        movieList.appendChild(li);
-      });
     }
   });
 }
+
 
 // Pick a random movie with slowing animation
 function pickRandomMovie() {
@@ -122,6 +133,15 @@ function pickRandomMovie() {
   });
 }
 
+function showFeedback(message, success = true) {
+  const feedback = document.getElementById("feedback");
+  feedback.textContent = message;
+  feedback.style.color = success ? "green" : "red";
+
+  setTimeout(() => {
+    feedback.textContent = "";
+  }, 2000); // disparaît après 2 secondes
+}
 
 // Event listeners
 addButton.addEventListener("click", () => addMovie(movieInput.value));
