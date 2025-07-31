@@ -19,7 +19,8 @@ const db = getDatabase(app);
 
 // DOM elements
 const movieInput = document.getElementById("movieInput");
-// remove placeholder when clicked
+
+// Remove placeholder on focus, restore on blur
 movieInput.addEventListener("focus", () => {
   movieInput.placeholderBackup = movieInput.placeholder;
   movieInput.placeholder = "";
@@ -52,9 +53,8 @@ function loadMovies() {
       Object.entries(data).forEach(([key, movie]) => {
         const li = document.createElement("li");
         li.textContent = movie.title;
-        li.style.position = "relative";
 
-        // Créer bouton supprimer
+        // Create delete button
         const delBtn = document.createElement("button");
         delBtn.textContent = "✖";
         delBtn.style.position = "absolute";
@@ -69,7 +69,6 @@ function loadMovies() {
         delBtn.title = "Delete movie";
 
         delBtn.addEventListener("click", () => {
-          // Supprimer le film dans Firebase avec la clé
           const movieRef = ref(db, `movies/${key}`);
           set(movieRef, null);
         });
@@ -81,8 +80,7 @@ function loadMovies() {
   });
 }
 
-
-// Pick a random movie from the list
+// Pick a random movie with slowing animation
 function pickRandomMovie() {
   const moviesRef = ref(db, "movies");
   get(moviesRef).then((snapshot) => {
@@ -92,9 +90,9 @@ function pickRandomMovie() {
     if (movies.length === 0) return;
 
     let count = 0;
-    let delay = 25;       // délai initial en ms
-    const maxDelay = 600; // délai max (ralentissement)
-    const increment = 10; // augmentation progressive du délai
+    let delay = 50;       // start delay
+    const maxDelay = 1000; // max delay for slow down
+    const increment = 50;  // delay increment per spin
 
     function spin() {
       pickedMovie.textContent = movies[count % movies.length];
@@ -104,16 +102,16 @@ function pickRandomMovie() {
         delay += increment;
         setTimeout(spin, delay);
       } else {
-        // Fin du tirage, choix final au hasard
         const randomIndex = Math.floor(Math.random() * movies.length);
         pickedMovie.textContent = movies[randomIndex];
+        pickedMovie.style.color = "red"; // result in red
       }
     }
 
+    pickedMovie.style.color = "#007bff"; // reset color before spin
     spin();
   });
 }
-
 
 // Event listeners
 addButton.addEventListener("click", () => addMovie(movieInput.value));
