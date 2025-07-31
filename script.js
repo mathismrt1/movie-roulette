@@ -122,9 +122,9 @@ function pickRandomMovie() {
     if (movies.length === 0) return;
 
     let count = 0;
-    let delay = 100;
+    let delay = 200;
     const maxDelay = 500;
-    const increment = 50;
+    const increment = 40;
     const fastDuration = 3000;
     const startTime = Date.now();
 
