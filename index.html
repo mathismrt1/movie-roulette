@@ -7,17 +7,36 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <h1>🎬 Movie Roulette</h1>
+  <h1>🎬 Movie Picker</h1>
 
-  <button id="pickButton">🎲 Pick a Movie</button>
-  <p id="pickedMovie"></p>
-  
   <div class="input-wrapper">
     <input type="text" id="movieInput" placeholder="Add a movie..." />
     <button id="addButton">Add</button>
   </div>
 
+  <button id="pickButton">🎲 Pick a Movie</button>
+  <p id="pickedMovie"></p>
+
   <ul id="movieList"></ul>
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js"></script>
+
+  <!-- Firebase Config -->
+  <script>
+    const firebaseConfig = {
+    apiKey: "AIzaSyCpr95pZ-_cfP6sMZIDkAfvOlftvo2WlRQ",
+    authDomain: "movie-roulette-1fd26.firebaseapp.com",
+    databaseURL: "https://movie-roulette-1fd26-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId: "movie-roulette-1fd26",
+    storageBucket: "movie-roulette-1fd26.firebasestorage.app",
+    messagingSenderId: "286304984019",
+    appId: "1:286304984019:web:3d9d7c81478f0c3a40ad26"
+  };
+
+    firebase.initializeApp(firebaseConfig);
+  </script>
 
   <script src="script.js"></script>
 </body>
