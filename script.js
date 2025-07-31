@@ -1,66 +1,51 @@
-let movies = JSON.parse(localStorage.getItem("movies")) || [];
-const movieList = document.getElementById("movieList");
+const db = firebase.database();
 const movieInput = document.getElementById("movieInput");
-const pickedMovie = document.getElementById("pickedMovie");
 const addButton = document.getElementById("addButton");
+const movieList = document.getElementById("movieList");
 const pickButton = document.getElementById("pickButton");
+const pickedMovie = document.getElementById("pickedMovie");
 
-addButton.addEventListener("click", addMovie);
+// Add movie to Firebase
+function addMovie(title) {
+  if (!title.trim()) return;
+  const movieRef = db.ref("movies").push();
+  movieRef.set({ title });
+  movieInput.value = "";
+}
 
-movieInput.addEventListener("keypress", function (event) {
-  if (event.key === "Enter") {
-    addMovie();
-  }
-});
-
-function renderMovies() {
+// Load movies from Firebase
+function loadMovies() {
   movieList.innerHTML = "";
-  movies.forEach((movie, index) => {
-    const li = document.createElement("li");
-    li.textContent = movie;
-
-    const deleteBtn = document.createElement("button");
-    deleteBtn.textContent = "✖";
-    deleteBtn.onclick = () => deleteMovie(index);
-
-    li.appendChild(deleteBtn);
-    movieList.appendChild(li);
-  });
-
-  localStorage.setItem("movies", JSON.stringify(movies));
-}
-
-function addMovie() {
-  const movie = movieInput.value.trim();
-  if (movie !== "") {
-    movies.push(movie);
-    movieInput.value = "";
-    renderMovies();
-  }
-}
-
-function deleteMovie(index) {
-  movies.splice(index, 1);
-  renderMovies();
-}
-
-pickButton.addEventListener("click", () => {
-  if (movies.length === 0) {
-    pickedMovie.textContent = "Please add some movies first!";
-    return;
-  }
-
-  let counter = 0;
-  const max = 15 + Math.floor(Math.random() * 15);
-
-  const interval = setInterval(() => {
-    const randomIndex = Math.floor(Math.random() * movies.length);
-    pickedMovie.textContent = movies[randomIndex];
-    counter++;
-    if (counter >= max) {
-      clearInterval(interval);
+  db.ref("movies").on("value", (snapshot) => {
+    movieList.innerHTML = "";
+    const data = snapshot.val();
+    if (data) {
+      Object.entries(data).forEach(([id, movie]) => {
+        const li = document.createElement("li");
+        li.textContent = movie.title;
+        movieList.appendChild(li);
+      });
     }
-  }, 100);
-});
+  });
+}
 
-renderMovies();
+// Pick random movie
+function pickRandomMovie() {
+  db.ref("movies").once("value", (snapshot) => {
+    const data = snapshot.val();
+    if (!data) return;
+    const movies = Object.values(data).map((m) => m.title);
+    const randomIndex = Math.floor(Math.random() * movies.length);
+    pickedMovie.textContent = "🎯 " + movies[randomIndex];
+  });
+}
+
+// Events
+addButton.addEventListener("click", () => addMovie(movieInput.value));
+movieInput.addEventListener("keypress", (e) => {
+  if (e.key === "Enter") addMovie(movieInput.value);
+});
+pickButton.addEventListener("click", pickRandomMovie);
+
+// Load on start
+loadMovies();
