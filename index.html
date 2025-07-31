@@ -9,9 +9,18 @@
 <body>
   <h1>🎬 Movie Rouletteee</h1>
 
+  <!-- Auth Section -->
+  <div id="authSection">
+    <input type="email" id="emailInput" placeholder="Email" />
+    <input type="password" id="passwordInput" placeholder="Password" />
+    <button id="loginButton">Login</button>
+    <button id="logoutButton" style="display:none;">Logout</button>
+  </div>
+
+  <!-- App Interface -->
   <div class="input-wrapper">
     <input type="text" id="movieInput" placeholder="Add a movie..." />
-    <button id="addButton">Add</button>
+    <button id="addButton" disabled>Add</button>
   </div>
 
   <div id="feedback" style="height: 24px; margin-bottom: 1rem;"></div>
