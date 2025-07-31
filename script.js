@@ -55,7 +55,7 @@ pickButton.addEventListener("click", () => {
 
   const interval = setInterval(() => {
     const randomIndex = Math.floor(Math.random() * movies.length);
-    pickedMovie.textContent = "🎯 " + movies[randomIndex];
+    pickedMovie.textContent = movies[randomIndex];
     counter++;
     if (counter >= max) {
       clearInterval(interval);
