@@ -122,18 +122,18 @@ button:hover {
 
 #authSection {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   align-items: center;
   gap: 0.5rem;
-  margin-bottom: 1rem;
-  flex-wrap: wrap;
+  margin-bottom: 2rem;
+  max-width: 100%;
 }
 
-#authSection input {
-  padding: 0.5rem 0.75rem;
-  font-size: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 6px;
+#authSection input,
+#authSection button {
+  flex: 1 1 auto;
+  min-width: 120px;
 }
 
 #authSection button {
