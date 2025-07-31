@@ -92,19 +92,25 @@ function pickRandomMovie() {
     if (movies.length === 0) return;
 
     let count = 0;
-    const duration = 5000; // 5 sec
-    const intervalTime = 100; // ms
+    let delay = 50;       // délai initial en ms
+    const maxDelay = 800; // délai max (ralentissement)
+    const increment = 30; // augmentation progressive du délai
 
-    const interval = setInterval(() => {
+    function spin() {
       pickedMovie.textContent = movies[count % movies.length];
       count++;
-    }, intervalTime);
 
-    setTimeout(() => {
-      clearInterval(interval);
-      const randomIndex = Math.floor(Math.random() * movies.length);
-      pickedMovie.textContent = "🎯 " + movies[randomIndex];
-    }, duration);
+      if (delay < maxDelay) {
+        delay += increment;
+        setTimeout(spin, delay);
+      } else {
+        // Fin du tirage, choix final au hasard
+        const randomIndex = Math.floor(Math.random() * movies.length);
+        pickedMovie.textContent = "🎯 " + movies[randomIndex];
+      }
+    }
+
+    spin();
   });
 }
 
