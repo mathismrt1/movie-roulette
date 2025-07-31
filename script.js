@@ -90,28 +90,38 @@ function pickRandomMovie() {
     if (movies.length === 0) return;
 
     let count = 0;
-    let delay = 50;       // start delay
-    const maxDelay = 1000; // max delay for slow down
-    const increment = 50;  // delay increment per spin
+    let delay = 50;           // délai rapide constant (50ms)
+    const maxDelay = 1000;    // délai max pour ralentir
+    const increment = 100;     // augmentation du délai à chaque tour
+    const fastDuration = 5000; // durée en ms de la phase rapide
+    const startTime = Date.now();
 
     function spin() {
       pickedMovie.textContent = movies[count % movies.length];
       count++;
 
-      if (delay < maxDelay) {
+      const elapsed = Date.now() - startTime;
+
+      if (elapsed < fastDuration) {
+        // Phase rapide constante
+        setTimeout(spin, delay);
+      } else if (delay < maxDelay) {
+        // Phase ralentissement progressif
         delay += increment;
         setTimeout(spin, delay);
       } else {
+        // Fin du tirage
         const randomIndex = Math.floor(Math.random() * movies.length);
         pickedMovie.textContent = movies[randomIndex];
-        pickedMovie.style.color = "red"; // result in red
+        pickedMovie.style.color = "red";
       }
     }
 
-    pickedMovie.style.color = "#007bff"; // reset color before spin
+    pickedMovie.style.color = "#007bff"; // reset couleur avant spin
     spin();
   });
 }
+
 
 // Event listeners
 addButton.addEventListener("click", () => addMovie(movieInput.value));
