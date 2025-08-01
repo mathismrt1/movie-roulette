@@ -23,7 +23,6 @@ const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 const auth = getAuth(app);
 
-// Configurer la persistance locale
 setPersistence(auth, browserLocalPersistence).catch(error => {
   console.error("Erreur lors de la configuration de la persistance:", error);
 });
