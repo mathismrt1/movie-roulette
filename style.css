@@ -75,7 +75,6 @@ body {
   #loginButton {
     width: 100%;
     box-sizing: border-box;
-    margin-bottom: 0.5rem;
   }
 }
 
@@ -86,7 +85,7 @@ body {
   background-color: #1b2a42;
   padding: 2rem;
   border-radius: 10px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.5);
   width: 100%;
   max-width: 480px;
   box-sizing: border-box;
@@ -219,18 +218,25 @@ body {
   padding: 1rem;
   border-radius: 8px;
   background-color: #152238;
-  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.3);
+  box-shadow: inset 0 0 5px rgba(0,0,0,0.3);
   margin: 0;
 }
 
 #movieList li {
   padding: 0.5rem 0.75rem;
   border-bottom: 1px solid #2f3f59;
-  position: relative;
   font-size: 1rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+#movieList li span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
+  margin-right: 1rem;
 }
 
 #movieList li button {
@@ -242,6 +248,7 @@ body {
   font-size: 1.1rem;
   padding: 0 0.25rem;
   transition: color 0.3s;
+  flex-shrink: 0;
 }
 
 #movieList li button:hover {
@@ -269,16 +276,6 @@ body {
     height: auto;
     padding: 0.5rem;
     line-height: 1.4;
-  }
-
-  #movieList li {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.5rem;
-  }
-
-  #movieList li button {
-    align-self: flex-end;
   }
 }
 
