@@ -9,6 +9,7 @@ body {
   justify-content: center;
   align-items: flex-start;
   min-height: 100vh;
+  box-sizing: border-box;
 }
 
 /* Conteneur auth en ligne */
@@ -62,7 +63,7 @@ body {
   background-color: #1573cc;
 }
 
-/* Pour mobile : empile les éléments */
+/* Responsive authSection */
 @media (max-width: 480px) {
   #authSection {
     flex-direction: column;
@@ -72,6 +73,188 @@ body {
   #authSection input[type="email"],
   #authSection input[type="password"],
   #loginButton {
+    width: 100%;
+  }
+}
+
+/* === STYLES POUR L'APP PRINCIPALE === */
+
+/* Conteneur principal */
+#appSection {
+  background-color: #1b2a42;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.5);
+  width: 100%;
+  max-width: 480px;
+  box-sizing: border-box;
+}
+
+/* Header avec titre et bouton déconnexion */
+#appSection .header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+#appSection .header h1 {
+  margin: 0;
+  font-size: 1.8rem;
+  color: #ffffff;
+}
+
+#logoutButton {
+  background-color: #ff5c5c;
+  border: none;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s;
+}
+
+#logoutButton:hover {
+  background-color: #cc4a4a;
+}
+
+/* Wrapper input + bouton Ajouter */
+.input-wrapper {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+#movieInput {
+  flex: 1;
+  padding: 0.6rem 1rem;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: 1px solid #3a4a6a;
+  background-color: #152238;
+  color: #f0f0f0;
+  transition: border-color 0.3s;
+}
+
+#movieInput::placeholder {
+  color: #8fa3bf;
+}
+
+#movieInput:focus {
+  outline: none;
+  border-color: #1e90ff;
+}
+
+#addButton {
+  background-color: #1e90ff;
+  border: none;
+  color: white;
+  padding: 0.6rem 1.2rem;
+  font-size: 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+#addButton:disabled {
+  background-color: #557abf;
+  cursor: not-allowed;
+}
+
+#addButton:not(:disabled):hover {
+  background-color: #1573cc;
+}
+
+/* Feedback */
+#feedback {
+  height: 24px;
+  text-align: center;
+  font-weight: 500;
+  margin-bottom: 1rem;
+  color: #00ff9d;
+}
+
+/* Bouton choisir un film */
+#pickButton {
+  display: block;
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1.1rem;
+  border-radius: 6px;
+  border: none;
+  background-color: #1e90ff;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-bottom: 1.5rem;
+}
+
+#pickButton:hover {
+  background-color: #1573cc;
+}
+
+/* Film choisi */
+#pickedMovie {
+  background-color: #174875;
+  color: #ffffff;
+  padding: 1rem;
+  border-radius: 8px;
+  font-weight: bold;
+  text-align: center;
+  font-size: 1.3rem;
+  margin-bottom: 2rem;
+}
+
+/* Liste des films */
+#movieList {
+  list-style: none;
+  padding: 1rem;
+  border-radius: 8px;
+  background-color: #152238;
+  box-shadow: inset 0 0 5px rgba(0,0,0,0.3);
+  max-height: 300px;
+  overflow-y: auto;
+  margin: 0;
+}
+
+#movieList li {
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid #2f3f59;
+  position: relative;
+  font-size: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#movieList li button {
+  background: none;
+  border: none;
+  color: #ff6666;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 1.1rem;
+  padding: 0 0.25rem;
+  transition: color 0.3s;
+}
+
+#movieList li button:hover {
+  color: #ff2a2a;
+}
+
+/* Responsive appSection */
+@media (max-width: 480px) {
+  #appSection {
+    padding: 1rem;
+    width: 100%;
+  }
+
+  .input-wrapper {
+    flex-direction: column;
+  }
+
+  #addButton {
     width: 100%;
   }
 }
