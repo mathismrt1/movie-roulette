@@ -1,130 +1,77 @@
+/* Reset et styles de base */
 body {
   background-color: #0b1d33;
   color: #f0f0f0;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin: 0;
-  padding: 0;
-  min-height: 100vh;
+  padding: 2rem;
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  padding: 2rem;
-  box-sizing: border-box;
+  min-height: 100vh;
 }
 
-#authSection, #appSection {
-  background-color: #14294e;
-  padding: 2rem;
-  border-radius: 10px;
-  width: 100%;
-  max-width: 400px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-}
-
-h1, h2 {
-  margin: 0 0 1rem 0;
-  text-align: center;
-}
-
-.header {
+/* Conteneur auth en ligne */
+#authSection {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-bottom: 1.5rem;
-}
-
-.input-wrapper {
-  display: flex;
   gap: 0.75rem;
-  margin-bottom: 1.5rem;
-}
-
-input {
-  flex: 1;
-  padding: 0.75rem 1rem;
-  font-size: 1rem;
-  border: none;
-  border-radius: 6px;
   background-color: #1b2a42;
+  padding: 1rem 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+/* Input commun */
+#authSection input[type="email"],
+#authSection input[type="password"] {
+  padding: 0.5rem 0.75rem;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: 1px solid #3a4a6a;
+  background-color: #152238;
   color: #f0f0f0;
+  width: 200px;
+  transition: border-color 0.3s;
 }
 
-input::placeholder {
-  color: #aaa;
+#authSection input[type="email"]::placeholder,
+#authSection input[type="password"]::placeholder {
+  color: #8fa3bf;
 }
 
-button {
+#authSection input[type="email"]:focus,
+#authSection input[type="password"]:focus {
+  outline: none;
+  border-color: #1e90ff;
+}
+
+/* Bouton connexion */
+#loginButton {
   background-color: #1e90ff;
   color: white;
   border: none;
-  padding: 0.75rem 1.25rem;
+  padding: 0.5rem 1.25rem;
   font-size: 1rem;
   border-radius: 6px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s;
 }
 
-button:hover {
+#loginButton:hover {
   background-color: #1573cc;
 }
 
-button:disabled {
-  background-color: #555;
-  cursor: default;
-}
+/* Pour mobile : empile les éléments */
+@media (max-width: 480px) {
+  #authSection {
+    flex-direction: column;
+    align-items: stretch;
+  }
 
-#pickButton {
-  display: block;
-  width: 100%;
-  margin: 1rem 0;
-}
-
-#pickedMovie {
-  background-color: #174875;
-  color: #ffffff;
-  padding: 1rem;
-  border-radius: 8px;
-  font-weight: bold;
-  text-align: center;
-  font-size: 1.3rem;
-  margin-bottom: 2rem;
-  min-height: 2rem;
-}
-
-#feedback {
-  height: 24px;
-  text-align: center;
-  color: #00ff9d;
-  font-weight: 500;
-  margin-bottom: 1rem;
-}
-
-#movieList {
-  list-style: none;
-  padding: 1rem;
-  border-radius: 8px;
-  background-color: #1b2a42;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-  text-align: left;
-  max-height: 250px;
-  overflow-y: auto;
-}
-
-#movieList li {
-  padding: 0.5rem 0;
-  border-bottom: 1px solid #2f3f59;
-  position: relative;
-  font-size: 1rem;
-}
-
-#movieList li button {
-  position: absolute;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  background: none;
-  color: #ff6666;
-  border: none;
-  font-weight: bold;
-  cursor: pointer;
+  #authSection input[type="email"],
+  #authSection input[type="password"],
+  #loginButton {
+    width: 100%;
+  }
 }
