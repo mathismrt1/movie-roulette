@@ -219,8 +219,6 @@ body {
   background-color: #152238;
   box-shadow: inset 0 0 5px rgba(0,0,0,0.3);
   margin: 0;
-  /* max-height: 300px; */
-  /* overflow-y: auto; */
 }
 
 #movieList li {
@@ -262,6 +260,20 @@ body {
   #addButton {
     width: 100%;
   }
+
+  #pickedMovie {
+    font-size: 1.1rem;
+    min-width: auto;
+    height: auto;
+    padding: 0.5rem;
+    line-height: 1.4;
+  }
+
+  #movieList li {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
 }
 
 input:-webkit-autofill {
@@ -269,4 +281,3 @@ input:-webkit-autofill {
   -webkit-text-fill-color: #f0f0f0 !important;
   transition: background-color 5000s ease-in-out 0s;
 }
-
