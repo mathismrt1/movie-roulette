@@ -30,30 +30,6 @@ const pickedMovie = document.getElementById("pickedMovie");
 const loginButton = document.getElementById("loginButton");
 const logoutButton = document.getElementById("logoutButton");
 
-// Login event
-loginButton.addEventListener("click", () => {
-  const email = document.getElementById("emailInput").value;
-  const password = document.getElementById("passwordInput").value;
-  signInWithEmailAndPassword(auth, email, password)
-    .catch((error) => alert("Login failed: " + error.message));
-});
-
-// Logout event
-logoutButton.addEventListener("click", () => {
-  signOut(auth);
-});
-
-// Auth state handling
-onAuthStateChanged(auth, (user) => {
-  const authSection = document.getElementById("authSection");
-  if (user) {
-    addButton.disabled = false;
-    loadMovies(true);
-  } else {
-    window.location.href = "login.html";
-  }
-});
-
 // Remove placeholder on focus, restore on blur
 movieInput.addEventListener("focus", () => {
   movieInput.placeholderBackup = movieInput.placeholder;
