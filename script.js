@@ -1,7 +1,6 @@
-// Import Firebase modules from CDN
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getDatabase, ref, push, set, onValue, get } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
-import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
 // Firebase config
 const firebaseConfig = {
@@ -14,32 +13,49 @@ const firebaseConfig = {
   appId: "1:286304984019:web:3d9d7c81478f0c3a40ad26"
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 const auth = getAuth(app);
 
-// DOM Elements
+// DOM
+const authSection = document.getElementById("authSection");
+const loginButton = document.getElementById("loginButton");
+const logoutButton = document.getElementById("logoutButton");
 const movieInput = document.getElementById("movieInput");
 const addButton = document.getElementById("addButton");
 const movieList = document.getElementById("movieList");
 const pickButton = document.getElementById("pickButton");
 const pickedMovie = document.getElementById("pickedMovie");
 
-// Auth DOM
-const loginButton = document.getElementById("loginButton");
-const logoutButton = document.getElementById("logoutButton");
-
-// Remove placeholder on focus, restore on blur
-movieInput.addEventListener("focus", () => {
-  movieInput.placeholderBackup = movieInput.placeholder;
-  movieInput.placeholder = "";
-});
-movieInput.addEventListener("blur", () => {
-  movieInput.placeholder = movieInput.placeholderBackup || "Add a movie...";
+// Login
+loginButton.addEventListener("click", () => {
+  const email = document.getElementById("emailInput").value;
+  const password = document.getElementById("passwordInput").value;
+  signInWithEmailAndPassword(auth, email, password)
+    .catch(err => alert("Login failed: " + err.message));
 });
 
-// Add movie
+// Logout
+logoutButton.addEventListener("click", () => {
+  signOut(auth);
+});
+
+// Auth state
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    authSection.style.display = "none";
+    logoutButton.style.display = "inline-block";
+    addButton.disabled = false;
+    loadMovies(true);
+  } else {
+    authSection.style.display = "block";
+    logoutButton.style.display = "none";
+    addButton.disabled = true;
+    loadMovies(false);
+  }
+});
+
+// Add Movie
 function addMovie(title) {
   if (!title.trim()) return;
   const moviesRef = ref(db, "movies");
@@ -52,38 +68,34 @@ function addMovie(title) {
   });
 }
 
-// Load movies
+// Load Movies
 function loadMovies(editable = false) {
   const moviesRef = ref(db, "movies");
   onValue(moviesRef, (snapshot) => {
     movieList.innerHTML = "";
     const data = snapshot.val();
-
     if (data) {
       Object.entries(data)
         .sort((a, b) => a[1].title.localeCompare(b[1].title))
         .forEach(([key, movie]) => {
           const li = document.createElement("li");
           li.textContent = movie.title;
-
           if (editable) {
             const delBtn = document.createElement("button");
             delBtn.textContent = "✖";
             delBtn.title = "Delete movie";
             delBtn.addEventListener("click", () => {
-              const movieRef = ref(db, `movies/${key}`);
-              set(movieRef, null);
+              set(ref(db, `movies/${key}`), null);
             });
             li.appendChild(delBtn);
           }
-
           movieList.appendChild(li);
         });
     }
   });
 }
 
-// Pick movie
+// Pick random movie
 function pickRandomMovie() {
   const moviesRef = ref(db, "movies");
   get(moviesRef).then((snapshot) => {
@@ -129,7 +141,7 @@ function showFeedback(message, success = true) {
   setTimeout(() => feedback.textContent = "", 3000);
 }
 
-// Event listeners
+// Events
 addButton.addEventListener("click", () => addMovie(movieInput.value));
 movieInput.addEventListener("keypress", (e) => {
   if (e.key === "Enter") addMovie(movieInput.value);
