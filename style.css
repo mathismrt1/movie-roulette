@@ -229,17 +229,19 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 0.5rem;
+  min-width: 0; /* Important pour que flex shrink marche bien */
 }
 
 #movieList li span {
+  flex: 1 1 auto;
   overflow: hidden;
-  text-overflow: ellipsis;
   white-space: nowrap;
-  flex: 1;
-  margin-right: 1rem;
+  text-overflow: ellipsis;
 }
 
 #movieList li button {
+  flex: 0 0 auto;
   background: none;
   border: none;
   color: #ff6666;
@@ -248,7 +250,14 @@ body {
   font-size: 1.1rem;
   padding: 0 0.25rem;
   transition: color 0.3s;
-  flex-shrink: 0;
+  align-self: center;
+}
+
+@media (max-width: 480px) {
+  #movieList li {
+    flex-direction: row;
+    align-items: center;
+  }
 }
 
 #movieList li button:hover {
