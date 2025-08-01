@@ -157,7 +157,7 @@ function pickRandomMovie() {
       }
     }
 
-    pickedMovie.style.color = "#007bff";
+    pickedMovie.style.color = "#ffffff";
     spin();
   });
 }
