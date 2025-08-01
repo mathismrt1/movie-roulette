@@ -7,12 +7,15 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <h1>🎬 Movie Roulette Login</h1>
-  <div class="login-box">
-    <input type="email" id="emailInput" placeholder="Email" />
-    <input type="password" id="passwordInput" placeholder="Password" />
-    <button id="loginButton">Login</button>
-  </div>
+  <main>
+    <h1>🔐 Login</h1>
+
+    <div class="login-box">
+      <input type="email" id="emailInput" placeholder="Email" />
+      <input type="password" id="passwordInput" placeholder="Password" />
+      <button id="loginButton">Login</button>
+    </div>
+  </main>
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
@@ -32,14 +35,14 @@
     loginButton.addEventListener("click", () => {
       const email = document.getElementById("emailInput").value;
       const password = document.getElementById("passwordInput").value;
+
       signInWithEmailAndPassword(auth, email, password)
         .then(() => {
-          window.location.href = "index.html"; // redirige vers l'app
+          window.location.href = "index.html";
         })
-        .catch((error) => alert("Login failed: " + error.message));
+        .catch(err => alert("Login failed: " + err.message));
     });
 
-    // Si déjà connecté → on saute login
     onAuthStateChanged(auth, (user) => {
       if (user) {
         window.location.href = "index.html";
