@@ -47,15 +47,10 @@ logoutButton.addEventListener("click", () => {
 onAuthStateChanged(auth, (user) => {
   const authSection = document.getElementById("authSection");
   if (user) {
-    authSection.style.display = "none";
-    logoutButton.style.display = "inline-block";
     addButton.disabled = false;
-    loadMovies(true); // Load with delete buttons
+    loadMovies(true);
   } else {
-    authSection.style.display = "block";
-    logoutButton.style.display = "none";
-    addButton.disabled = true;
-    loadMovies(false); // Read-only
+    window.location.href = "login.html";
   }
 });
 
