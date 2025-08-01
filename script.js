@@ -2,7 +2,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/fireba
 import { getDatabase, ref, push, set, onValue, get } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
-// Firebase config
+// Config Firebase
 const firebaseConfig = {
   apiKey: "AIzaSyCpr95pZ-_cfP6sMZIDkAfvOlftvo2WlRQ",
   authDomain: "movie-roulette-1fd26.firebaseapp.com",
@@ -19,6 +19,7 @@ const auth = getAuth(app);
 
 // DOM
 const authSection = document.getElementById("authSection");
+const appSection = document.getElementById("appSection");
 const loginButton = document.getElementById("loginButton");
 const logoutButton = document.getElementById("logoutButton");
 const movieInput = document.getElementById("movieInput");
@@ -26,13 +27,18 @@ const addButton = document.getElementById("addButton");
 const movieList = document.getElementById("movieList");
 const pickButton = document.getElementById("pickButton");
 const pickedMovie = document.getElementById("pickedMovie");
+const feedback = document.getElementById("feedback");
 
 // Login
 loginButton.addEventListener("click", () => {
-  const email = document.getElementById("emailInput").value;
-  const password = document.getElementById("passwordInput").value;
+  const email = document.getElementById("emailInput").value.trim();
+  const password = document.getElementById("passwordInput").value.trim();
+  if (!email || !password) {
+    alert("Merci de remplir email et mot de passe");
+    return;
+  }
   signInWithEmailAndPassword(auth, email, password)
-    .catch(err => alert("Login failed: " + err.message));
+    .catch(err => alert("Échec de la connexion : " + err.message));
 });
 
 // Logout
@@ -40,18 +46,22 @@ logoutButton.addEventListener("click", () => {
   signOut(auth);
 });
 
-// Auth state
+// Auth state change
 onAuthStateChanged(auth, (user) => {
   if (user) {
     authSection.style.display = "none";
+    appSection.style.display = "block";
     logoutButton.style.display = "inline-block";
     addButton.disabled = false;
     loadMovies(true);
   } else {
-    authSection.style.display = "block";
+    authSection.style.display = "flex";
+    appSection.style.display = "none";
     logoutButton.style.display = "none";
     addButton.disabled = true;
-    loadMovies(false);
+    movieList.innerHTML = "";
+    pickedMovie.textContent = "";
+    feedback.textContent = "";
   }
 });
 
@@ -62,9 +72,9 @@ function addMovie(title) {
   const newMovieRef = push(moviesRef);
   set(newMovieRef, { title }).then(() => {
     movieInput.value = "";
-    showFeedback("✔️ Movie added!", true);
+    showFeedback("✔️ Film ajouté !", true);
   }).catch(() => {
-    showFeedback("❌ Error adding movie.", false);
+    showFeedback("❌ Erreur lors de l'ajout.", false);
   });
 }
 
@@ -83,7 +93,7 @@ function loadMovies(editable = false) {
           if (editable) {
             const delBtn = document.createElement("button");
             delBtn.textContent = "✖";
-            delBtn.title = "Delete movie";
+            delBtn.title = "Supprimer le film";
             delBtn.addEventListener("click", () => {
               set(ref(db, `movies/${key}`), null);
             });
@@ -135,15 +145,17 @@ function pickRandomMovie() {
 
 // Feedback
 function showFeedback(message, success = true) {
-  const feedback = document.getElementById("feedback");
   feedback.textContent = message;
-  feedback.style.color = success ? "green" : "red";
+  feedback.style.color = success ? "#00ff9d" : "#ff6666";
   setTimeout(() => feedback.textContent = "", 3000);
 }
 
 // Events
 addButton.addEventListener("click", () => addMovie(movieInput.value));
+movieInput.addEventListener("input", () => {
+  addButton.disabled = movieInput.value.trim() === "";
+});
 movieInput.addEventListener("keypress", (e) => {
-  if (e.key === "Enter") addMovie(movieInput.value);
+  if (e.key === "Enter" && !addButton.disabled) addMovie(movieInput.value);
 });
 pickButton.addEventListener("click", pickRandomMovie);
