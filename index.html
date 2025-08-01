@@ -3,44 +3,36 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Login - Movie Roulette</title>
+  <title>Movie Roulette</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <main>
-    <h1>🔐 Login</h1>
-    <div class="login-box">
-      <input type="email" id="emailInput" placeholder="Email" />
-      <input type="password" id="passwordInput" placeholder="Password" />
+  <!-- Zone de connexion -->
+  <div id="authSection">
+    <input type="email" id="emailInput" placeholder="Email" />
+    <input type="password" id="passwordInput" placeholder="Password" />
+    <div style="display: flex; gap: 0.5rem;">
       <button id="loginButton">Login</button>
+      <button id="logoutButton" style="display:none;">Logout</button>
     </div>
-  </main>
+  </div>
 
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+  <!-- Interface principale -->
+  <h1>🎬 Movie Roulette</h1>
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyCpr95pZ-_cfP6sMZIDkAfvOlftvo2WlRQ",
-      authDomain: "movie-roulette-1fd26.firebaseapp.com",
-      projectId: "movie-roulette-1fd26",
-      appId: "1:286304984019:web:3d9d7c81478f0c3a40ad26"
-    };
+  <div class="input-wrapper">
+    <input type="text" id="movieInput" placeholder="Add a movie." />
+    <button id="addButton" disabled>Add</button>
+  </div>
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
+  <div id="feedback"></div>
 
-    const loginButton = document.getElementById("loginButton");
-    loginButton.addEventListener("click", () => {
-      const email = document.getElementById("emailInput").value;
-      const password = document.getElementById("passwordInput").value;
+  <button id="pickButton">🎲 Pick a Movie</button>
 
-      signInWithEmailAndPassword(auth, email, password)
-        .then(() => {
-          window.location.href = "app.html";
-        })
-        .catch(err => alert("Login failed: " + err.message));
-    });
-  </script>
+  <div id="pickedMovie"></div>
+
+  <ul id="movieList"></ul>
+
+  <script type="module" src="script.js"></script>
 </body>
 </html>
