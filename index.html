@@ -7,21 +7,22 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  
-  <h1>🎬 Movie Roulette</h1>
+  <main>
+    <h1>🎬 Movie Roulette</h1>
 
-   <!-- App Interface -->
-  <div class="input-wrapper">
-    <input type="text" id="movieInput" placeholder="Add a movie..." />
-    <button id="addButton" disabled>Add</button>
-  </div>
+    <div class="input-wrapper">
+      <input type="text" id="movieInput" placeholder="Add a movie..." />
+      <button id="addButton">Add</button>
+    </div>
 
-  <div id="feedback" style="height: 24px; margin-bottom: 1rem;"></div>
+    <div id="feedback"></div>
 
-  <button id="pickButton">🎲 Pick a Movie</button>
-  <p id="pickedMovie"></p>
+    <button id="pickButton">🎲 Pick a Movie</button>
 
-  <ul id="movieList"></ul>
+    <div id="pickedMovie"></div>
+
+    <ul id="movieList"></ul>
+  </main>
 
   <script type="module" src="script.js"></script>
 </body>
