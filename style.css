@@ -74,6 +74,7 @@ body {
   #authSection input[type="password"],
   #loginButton {
     width: 100%;
+    box-sizing: border-box;
   }
 }
 
