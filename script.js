@@ -1,6 +1,12 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getDatabase, ref, push, set, onValue, get } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { setPersistence, browserLocalPersistence } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+setPersistence(auth, browserLocalPersistence).catch((error) => {
+  console.error("Erreur lors de la configuration de la persistance:", error);
+});
+
 
 const firebaseConfig = {
   apiKey: "AIzaSyCpr95pZ-_cfP6sMZIDkAfvOlftvo2WlRQ",
@@ -60,6 +66,7 @@ pickButton.addEventListener("click", pickRandomMovie);
 
 // Auth state observer
 onAuthStateChanged(auth, (user) => {
+  console.log("Auth state changed:", user);
   if (user) {
     authSection.style.display = "none";
     appSection.style.display = "block";
