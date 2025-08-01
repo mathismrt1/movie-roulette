@@ -167,3 +167,16 @@ function showFeedback(message, success = true) {
   feedback.style.color = success ? "#00ff9d" : "#ff5555";
   setTimeout(() => feedback.textContent = "", 3000);
 }
+
+// --- AJOUT : validation login avec touche Entrée sur email et password ---
+const emailInput = document.getElementById("emailInput");
+const passwordInput = document.getElementById("passwordInput");
+
+function tryLoginOnEnter(event) {
+  if (event.key === "Enter") {
+    loginButton.click();
+  }
+}
+
+emailInput.addEventListener("keydown", tryLoginOnEnter);
+passwordInput.addEventListener("keydown", tryLoginOnEnter);
