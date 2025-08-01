@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -8,30 +8,32 @@
 </head>
 <body>
   <!-- Zone de connexion -->
-  <div id="authSection">
+  <div id="authSection" class="centered">
     <input type="email" id="emailInput" placeholder="Email" />
-    <input type="password" id="passwordInput" placeholder="Password" />
-    <div style="display: flex; gap: 0.5rem;">
-      <button id="loginButton">Login</button>
-      <button id="logoutButton" style="display:none;">Logout</button>
+    <input type="password" id="passwordInput" placeholder="Mot de passe" />
+    <div class="btn-row">
+      <button id="loginButton">Se connecter</button>
+      <button id="logoutButton" style="display:none;">Se déconnecter</button>
     </div>
   </div>
 
   <!-- Interface principale -->
-  <h1>🎬 Movie Roulette</h1>
+  <main id="appSection" style="display:none;">
+    <h1>🎬 Movie Roulette</h1>
 
-  <div class="input-wrapper">
-    <input type="text" id="movieInput" placeholder="Add a movie." />
-    <button id="addButton" disabled>Add</button>
-  </div>
+    <div class="input-wrapper">
+      <input type="text" id="movieInput" placeholder="Ajouter un film" />
+      <button id="addButton" disabled>Ajouter</button>
+    </div>
 
-  <div id="feedback"></div>
+    <div id="feedback"></div>
 
-  <button id="pickButton">🎲 Pick a Movie</button>
+    <button id="pickButton">🎲 Choisir un film</button>
 
-  <div id="pickedMovie"></div>
+    <div id="pickedMovie"></div>
 
-  <ul id="movieList"></ul>
+    <ul id="movieList"></ul>
+  </main>
 
   <script type="module" src="script.js"></script>
 </body>
