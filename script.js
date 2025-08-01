@@ -23,11 +23,12 @@ const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 const auth = getAuth(app);
 
-setPersistence(auth, browserLocalPersistence).catch((error) => {
+// Configurer la persistance locale
+setPersistence(auth, browserLocalPersistence).catch(error => {
   console.error("Erreur lors de la configuration de la persistance:", error);
 });
 
-
+// DOM Elements
 const authSection = document.getElementById("authSection");
 const appSection = document.getElementById("appSection");
 const loginButton = document.getElementById("loginButton");
@@ -56,23 +57,22 @@ logoutButton.addEventListener("click", () => {
   signOut(auth);
 });
 
-// Enable/disable Add button based on input
+// Activer/Désactiver bouton Ajouter selon input
 movieInput.addEventListener("input", () => {
   addButton.disabled = movieInput.value.trim() === "";
 });
 
-// Add Movie
+// Ajouter un film
 addButton.addEventListener("click", () => addMovie(movieInput.value));
 movieInput.addEventListener("keypress", e => {
   if (e.key === "Enter" && !addButton.disabled) addMovie(movieInput.value);
 });
 
-// Pick a movie
+// Choisir un film aléatoire
 pickButton.addEventListener("click", pickRandomMovie);
 
-// Auth state observer
+// Surveiller état de connexion
 onAuthStateChanged(auth, (user) => {
-  console.log("Auth state changed:", user);
   if (user) {
     authSection.style.display = "none";
     appSection.style.display = "block";
