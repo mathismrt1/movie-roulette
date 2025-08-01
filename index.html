@@ -9,7 +9,6 @@
 <body>
   <main>
     <h1>🔐 Login</h1>
-
     <div class="login-box">
       <input type="email" id="emailInput" placeholder="Email" />
       <input type="password" id="passwordInput" placeholder="Password" />
@@ -38,18 +37,16 @@
 
       signInWithEmailAndPassword(auth, email, password)
         .then(() => {
-          window.location.href = "index.html";
+          window.location.href = "app.html";
         })
         .catch(err => alert("Login failed: " + err.message));
     });
 
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        // Utilisateur connecté, on va vers l’app
         window.location.href = "app.html";
       }
     });
-
   </script>
 </body>
 </html>
