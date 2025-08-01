@@ -26,7 +26,7 @@ body {
 /* Input commun */
 #authSection input[type="email"],
 #authSection input[type="password"] {
-  padding: 0.5rem 0.75rem;
+  padding: 1rem 0.75rem;
   font-size: 1rem;
   border-radius: 6px;
   border: 1px solid #3a4a6a;
