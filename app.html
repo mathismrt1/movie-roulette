@@ -24,6 +24,29 @@
     <ul id="movieList"></ul>
   </main>
 
+  <!-- Ton script principal -->
   <script type="module" src="script.js"></script>
+
+  <!-- Redirection si l'utilisateur n'est pas connecté -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCpr95pZ-_cfP6sMZIDkAfvOlftvo2WlRQ",
+      authDomain: "movie-roulette-1fd26.firebaseapp.com",
+      projectId: "movie-roulette-1fd26",
+      appId: "1:286304984019:web:3d9d7c81478f0c3a40ad26"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        window.location.href = "index.html";
+      }
+    });
+  </script>
 </body>
 </html>
