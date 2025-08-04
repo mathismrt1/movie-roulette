@@ -182,7 +182,7 @@ body {
   overflow: hidden;
   position: relative;
   margin-bottom: 2rem;
-  border: 2px solid yellow;
+  border: 2px solid rose;
   border-radius: 8px;
 }
 
@@ -216,7 +216,7 @@ body {
 }
 
 .roulette-item.highlight {
-  background-color: yellow;
+  background-color: rose;
   color: black;
   font-weight: bold;
 }
@@ -292,6 +292,7 @@ input:-moz-autofill {
   box-shadow: 0 0 0 1000px #152238 inset !important;
   -moz-text-fill-color: #f0f0f0 !important;
 }
+
 
 
 
