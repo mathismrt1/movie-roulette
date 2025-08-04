@@ -201,6 +201,9 @@ body {
 .roulette-item {
   height: 38px;
   line-height: 38px;
+  min-height: 38px;
+  max-height: 38px;
+  overflow: hidden;
   text-align: center;
   width: 100%;
   font-size: 1.2rem;
@@ -295,6 +298,7 @@ input:-moz-autofill {
   box-shadow: 0 0 0 1000px #152238 inset !important;
   -moz-text-fill-color: #f0f0f0 !important;
 }
+
 
 
 
