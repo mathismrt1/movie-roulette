@@ -130,40 +130,60 @@ function pickRandomMovie() {
   get(moviesRef).then((snapshot) => {
     const data = snapshot.val();
     if (!data) return;
+
     const movies = Object.values(data).map(m => m.title);
     if (movies.length === 0) return;
 
-    let count = 0;
-    let delay = 150;
-    const maxDelay = 500;
-    const increment = 40;
-    const fastDuration = 3000;
-    const startTime = Date.now();
+    const wrapper = document.querySelector('.roulette-wrapper');
+    const topItem = wrapper.querySelector('.roulette-item.top');
+    const centerItem = wrapper.querySelector('.roulette-item.center');
+    const bottomItem = wrapper.querySelector('.roulette-item.bottom');
 
-    function spin() {
-      pickedMovie.textContent = movies[count % movies.length];
-      count++;
-      const elapsed = Date.now() - startTime;
+    let currentIndex = 0;
+    let delay = 120;
+    let fastDuration = 2000;
+    let maxDelay = 500;
+    let increment = 50;
+    let elapsed = 0;
 
-      if (elapsed < fastDuration) {
-        setTimeout(spin, delay);
-      } else if (delay < maxDelay) {
+    const interval = setInterval(() => {
+      const top = movies[(currentIndex - 1 + movies.length) % movies.length];
+      const center = movies[currentIndex % movies.length];
+      const bottom = movies[(currentIndex + 1) % movies.length];
+
+      topItem.textContent = top;
+      centerItem.textContent = center;
+      bottomItem.textContent = bottom;
+
+      wrapper.style.transform = 'translateY(0)';
+      wrapper.style.transition = 'none';
+      void wrapper.offsetHeight; // force reflow
+      wrapper.style.transition = 'transform 0.3s ease-out';
+      wrapper.style.transform = 'translateY(-2.4rem)';
+
+      currentIndex++;
+      elapsed += delay;
+
+      if (elapsed > fastDuration) {
         delay += increment;
-        setTimeout(spin, delay);
-      } else {
-        const randomIndex = Math.floor(Math.random() * movies.length);
-        pickedMovie.textContent = movies[randomIndex];
-        pickedMovie.style.color = "red";
+        if (delay >= maxDelay) {
+          clearInterval(interval);
+          // Stabiliser la roulette sur le gagnant final
+          const winner = movies[(currentIndex - 1 + movies.length) % movies.length];
+          topItem.textContent = "";
+          centerItem.textContent = winner;
+          bottomItem.textContent = "";
+          wrapper.style.transform = 'translateY(-2.4rem)';
+        }
       }
-    }
-
-    pickedMovie.style.color = "#ffffff";
-    spin();
+    }, delay);
   });
 }
+
 
 function showFeedback(message, success = true) {
   feedback.textContent = message;
   feedback.style.color = success ? "#00ff9d" : "#ff5555";
   setTimeout(() => feedback.textContent = "", 3000);
 }
+
