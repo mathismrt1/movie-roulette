@@ -144,20 +144,22 @@ function pickRandomMovie() {
     }
 
     const wrapper = document.getElementById("rouletteWrapper");
+    if (!wrapper) {
+      console.error("Element #rouletteWrapper manquant.");
+      pickButton.disabled = false;
+      return;
+    }
+
     wrapper.innerHTML = "";
 
     const visibleItems = 3;
     const centerOffset = Math.floor(visibleItems / 2);
     const cycles = 3;
 
-    // Créer la liste étendue avec buffer pour éviter vide
     const extendedList = [];
-    for (let i = 0; i < cycles; i++) {
-      extendedList.push(...movies);
-    }
-    extendedList.push(...movies.slice(0, visibleItems)); // buffer
+    for (let i = 0; i < cycles; i++) extendedList.push(...movies);
+    extendedList.push(...movies.slice(0, visibleItems)); // Buffer
 
-    // Injecter les éléments dans le DOM
     extendedList.forEach(title => {
       const div = document.createElement("div");
       div.className = "roulette-item";
@@ -166,29 +168,28 @@ function pickRandomMovie() {
     });
 
     setTimeout(() => {
-      const itemHeight = 38; // valeur fixe (tu peux remplacer par mesure dynamique si besoin)
+      const item = wrapper.querySelector(".roulette-item");
+      const itemHeight = item?.offsetHeight || 38;
 
-      // Tirage aléatoire dans la liste originale
       const targetInOriginal = Math.floor(Math.random() * movies.length);
       const targetIndex = (cycles - 1) * movies.length + targetInOriginal;
 
-      // Calcul du déplacement vers le bas : translateY positif (défilement vers le bas)
-      const translateY = (targetIndex - centerOffset) * itemHeight;
+      // Nouvelle ligne : forcer un déplacement qui tombe pile sur un multiple
+      let translateY = (targetIndex - centerOffset) * itemHeight;
+      translateY = Math.round(translateY / itemHeight) * itemHeight;
 
-      // Limiter translateY au max possible pour ne pas dépasser le contenu
       const maxTranslateY = (extendedList.length - visibleItems) * itemHeight;
       const finalTranslateY = Math.min(translateY, maxTranslateY);
 
-      // Paramètres animation (ajuste ici la vitesse)
-      const pixelsPerSecond = 1600; // plus rapide (800 était trop lent)
+      const pixelsPerSecond = 800;
       const duration = finalTranslateY / pixelsPerSecond;
 
       wrapper.style.transition = "none";
       wrapper.style.transform = "translateY(0px)";
-      void wrapper.offsetHeight; // trigger reflow
+      void wrapper.offsetHeight;
 
       wrapper.style.transition = `transform ${duration}s cubic-bezier(0.33, 1, 0.68, 1)`;
-      wrapper.style.transform = `translateY(${finalTranslateY}px)`; // vers le bas !
+      wrapper.style.transform = `translateY(-${finalTranslateY}px)`;
 
       wrapper.addEventListener("transitionend", function handler() {
         wrapper.removeEventListener("transitionend", handler);
@@ -196,25 +197,30 @@ function pickRandomMovie() {
         const items = wrapper.querySelectorAll(".roulette-item");
         items.forEach(item => item.classList.remove("center", "highlight"));
 
-        // L'index de l'item centré visible (défilement vers le bas)
         const highlightIndex = Math.round(finalTranslateY / itemHeight) + centerOffset;
-
-        if (items[highlightIndex]) {
-          items[highlightIndex].classList.add("center", "highlight");
-          pickedMovie.textContent = `🎬 Film choisi : ${items[highlightIndex].textContent}`;
+        const selected = items[highlightIndex];
+        if (selected) {
+          selected.classList.add("center", "highlight");
+          const pickedMovieEl = document.getElementById("pickedMovie");
+          if (pickedMovieEl) pickedMovieEl.textContent = selected.textContent;
         }
 
         pickButton.disabled = false;
       });
     }, 0);
+  }).catch((err) => {
+    console.error("Erreur lors de la récupération des films :", err);
+    pickButton.disabled = false;
   });
 }
+
 
 function showFeedback(message, success = true) {
   feedback.textContent = message;
   feedback.style.color = success ? "#00ff9d" : "#ff5555";
   setTimeout(() => feedback.textContent = "", 3000);
 }
+
 
 
 
