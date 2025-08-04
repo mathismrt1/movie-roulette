@@ -126,7 +126,6 @@ function loadMovies(editable = false) {
 }
 
 function pickRandomMovie() {
-  // Empêcher de relancer si une animation est en cours
   if (pickButton.disabled) return;
   pickButton.disabled = true;
 
@@ -147,64 +146,65 @@ function pickRandomMovie() {
     const wrapper = document.getElementById("rouletteWrapper");
     wrapper.innerHTML = "";
 
-    const totalCycles = 5;
-    const itemsToShow = 3;
-    const offset = Math.floor(itemsToShow / 2);
+    const itemHeight = 38; // doit correspondre à .roulette-item height
+    const visibleItems = 3;
+    const centerOffset = Math.floor(visibleItems / 2);
+    const cycles = 5;
 
-    const targetIndex = Math.floor(Math.random() * movies.length);
-    const finalIndex = totalCycles * movies.length + targetIndex;
-
-    const spinList = [];
-    for (let i = 0; i < totalCycles * movies.length + itemsToShow; i++) {
-      spinList.push(movies[i % movies.length]);
+    const extendedList = [];
+    for (let i = 0; i < cycles; i++) {
+      extendedList.push(...movies);
     }
 
-    spinList.forEach(title => {
+    // Ajout de quelques items buffer après pour éviter "vide"
+    extendedList.push(...movies.slice(0, visibleItems));
+
+    // Injecter les éléments
+    extendedList.forEach(title => {
       const div = document.createElement("div");
       div.className = "roulette-item";
       div.textContent = title;
       wrapper.appendChild(div);
     });
 
-    requestAnimationFrame(() => {
-      const itemHeight = wrapper.querySelector(".roulette-item").offsetHeight;
-      const finalTranslateY = -((finalIndex - offset) * itemHeight);
-      const pixelsToScroll = Math.abs(finalTranslateY);
-      const pixelsPerSecond = 300;
-      const duration = pixelsToScroll / pixelsPerSecond;
+    // Sélection aléatoire d’un film dans la DERNIÈRE boucle pour que l’animation soit longue
+    const targetInOriginal = Math.floor(Math.random() * movies.length);
+    const targetIndex = (cycles - 1) * movies.length + targetInOriginal;
 
-      // Reset transform avant animation
-      wrapper.style.transition = "none";
-      wrapper.style.transform = `translateY(0px)`;
+    // Calcul du translateY pour centrer l’élément cible
+    const translateY = (targetIndex - centerOffset) * itemHeight;
 
-      // Forcer un reflow pour appliquer la transition proprement
-      void wrapper.offsetHeight;
+    // Animation fluide avec easing
+    const pixelsToScroll = translateY;
+    const pixelsPerSecond = 300;
+    const duration = pixelsToScroll / pixelsPerSecond;
 
-      // Appliquer la transition
-      wrapper.style.transition = `transform ${duration}s cubic-bezier(0.33, 1, 0.68, 1)`;
-      wrapper.style.transform = `translateY(${finalTranslateY}px)`;
+    wrapper.style.transition = "none";
+    wrapper.style.transform = "translateY(0px)";
+    void wrapper.offsetHeight;
 
-      // Nettoyage + affichage du film sélectionné
-      const onEnd = () => {
-        wrapper.removeEventListener("transitionend", onEnd);
-        const items = wrapper.querySelectorAll(".roulette-item");
-        items.forEach(el => el.classList.remove("center"));
-        if (items[finalIndex]) {
-          items[finalIndex].classList.add("center");
-        }
-        pickButton.disabled = false; // Réactiver le bouton
-      };
+    wrapper.style.transition = `transform ${duration}s cubic-bezier(0.33, 1, 0.68, 1)`;
+    wrapper.style.transform = `translateY(-${translateY}px)`;
 
-      wrapper.addEventListener("transitionend", onEnd);
+    wrapper.addEventListener("transitionend", function handler() {
+      wrapper.removeEventListener("transitionend", handler);
+      const items = wrapper.querySelectorAll(".roulette-item");
+      items.forEach(item => item.classList.remove("center"));
+      if (items[targetIndex]) {
+        items[targetIndex].classList.add("center");
+      }
+      pickButton.disabled = false;
     });
   });
 }
+
 
 function showFeedback(message, success = true) {
   feedback.textContent = message;
   feedback.style.color = success ? "#00ff9d" : "#ff5555";
   setTimeout(() => feedback.textContent = "", 3000);
 }
+
 
 
 
