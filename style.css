@@ -177,6 +177,7 @@ body {
 /*ROULETTE*/
 #rouletteContainer {
   display: block;
+  width: 100%;
   height: 114px; /* 3 items * 38px */
   overflow: hidden;
   position: relative;
@@ -289,6 +290,7 @@ input:-moz-autofill {
   box-shadow: 0 0 0 1000px #152238 inset !important;
   -moz-text-fill-color: #f0f0f0 !important;
 }
+
 
 
 
