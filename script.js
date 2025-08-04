@@ -201,8 +201,6 @@ function pickRandomMovie() {
         const selected = items[highlightIndex];
         if (selected) {
           selected.classList.add("center", "highlight");
-          const pickedMovieEl = document.getElementById("pickedMovie");
-          if (pickedMovieEl) pickedMovieEl.textContent = selected.textContent;
         }
 
         pickButton.disabled = false;
@@ -220,6 +218,7 @@ function showFeedback(message, success = true) {
   feedback.style.color = success ? "#00ff9d" : "#ff5555";
   setTimeout(() => feedback.textContent = "", 3000);
 }
+
 
 
 
