@@ -179,17 +179,13 @@ body {
   height: 114px; /* 3 items * 38px */
   overflow: hidden;
   position: relative;
-  margin-bottom: 2rem;
+  margin: 0 auto 2rem auto;
   display: flex;
   justify-content: center;
   align-items: center;
   border: 2px solid #ffcc00;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(255, 204, 0, 0.3);
-  width: 100%;
-  max-width: 480px; /* même largeur que #appSection */
-  margin-left: auto;
-  margin-right: auto;
 }
 
 #rouletteWrapper {
@@ -198,6 +194,8 @@ body {
   align-items: stretch;
   transition: transform 0.3s ease-out;
   will-change: transform;
+  width: 100%; /* 👈 AJOUTE CECI */
+  box-sizing: border-box;
 }
 
 .roulette-item {
@@ -211,6 +209,7 @@ body {
   opacity: 0.4;
   transform: scale(0.9);
   transition: all 0.3s ease;
+  box-sizing: border-box;
 }
 
 .roulette-item.center {
@@ -296,6 +295,7 @@ input:-moz-autofill {
   box-shadow: 0 0 0 1000px #152238 inset !important;
   -moz-text-fill-color: #f0f0f0 !important;
 }
+
 
 
 
