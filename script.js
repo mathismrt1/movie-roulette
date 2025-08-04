@@ -137,89 +137,64 @@ function pickRandomMovie() {
     const wrapper = document.getElementById("rouletteWrapper");
     wrapper.innerHTML = "";
 
-    // Pour que la roulette ait assez d'éléments à défiler, on va répéter plusieurs fois la liste
-    const repeatCount = 10;
-    let spinList = [];
-    for (let i = 0; i < repeatCount; i++) {
-      spinList = spinList.concat(movies);
+    // Choisir un film au hasard (index cible)
+    const targetIndex = Math.floor(Math.random() * movies.length);
+
+    // On va créer une liste suffisamment longue pour le défilement
+    const totalCycles = 5; // combien de fois on fait défiler la liste complète
+    const itemsToShow = 3; // nombre d'items visibles (centré sur le 2ème)
+    const fullListLength = movies.length * totalCycles + itemsToShow; 
+
+    const spinList = [];
+
+    // Construire la liste : répéter les films plusieurs fois + buffer pour centrer
+    for (let i = 0; i < fullListLength; i++) {
+      spinList.push(movies[i % movies.length]);
     }
 
-    // Injecte tous les éléments dans le DOM
-    spinList.forEach((title) => {
+    // Injecter les éléments
+    spinList.forEach(title => {
       const div = document.createElement("div");
       div.className = "roulette-item";
       div.textContent = title;
       wrapper.appendChild(div);
     });
 
-    requestAnimationFrame(() => {
-      const oneItem = wrapper.querySelector(".roulette-item");
-      if (!oneItem) return;
+    const itemHeight = wrapper.querySelector(".roulette-item").offsetHeight;
 
-      const itemHeight = oneItem.offsetHeight;
+    // Calculer la position finale : 
+    // On veut que le film cible soit centré, donc translation = -( (totalItemsBeforeTarget + offset) * itemHeight )
+    // offset = itemsToShow // 2 pour centrer (ex: 1 si 3 items visibles)
+    const offset = Math.floor(itemsToShow / 2);
+    const finalIndex = totalCycles * movies.length + targetIndex;
+    const finalTranslateY = -((finalIndex - offset) * itemHeight);
 
-      // Choix aléatoire de l'index final (dans la liste originale, pas dans la répétée)
-      const chosenIndex = Math.floor(Math.random() * movies.length);
+    // Déclencher l'animation CSS
+    wrapper.style.transition = "transform 5s cubic-bezier(0.33, 1, 0.68, 1)"; // easing pour ralentir
+    wrapper.style.transform = `translateY(${finalTranslateY}px)`;
 
-      // Calcul de la position finale : on veut que l'item choisi soit centré dans la zone visible
-      // La zone visible fait 3 items (hauteur 7.2rem, soit 3 x 2.4rem)
-      // L'item central est le 2ème (index 1), donc on décale pour centrer l'item choisi à cette position
-      const centerPositionIndex = chosenIndex + (repeatCount - 1) * movies.length;
+    // Enlever les classes center au départ
+    wrapper.querySelectorAll(".roulette-item").forEach(el => el.classList.remove("center"));
 
-      // On veut que la roulette s'arrête avec transform = translateY(itemHeight * position)
-      // Vu qu'on défile du haut vers le bas, on commence à 0, on augmente la position
-      let currentPosition = 0;
-      let maxPosition = centerPositionIndex * itemHeight;
-
-      // Variables pour la gestion de la vitesse (en px / frame)
-      let speed = 30; // départ rapide
-      const minSpeed = 0.5; // vitesse minimale avant arrêt
-      const deceleration = 0.05; // vitesse de ralentissement par frame
-
-      wrapper.style.transition = "none";
-      wrapper.style.transform = `translateY(0px)`;
-
-      function animate() {
-        currentPosition += speed;
-
-        if (currentPosition >= maxPosition) {
-          currentPosition = maxPosition;
-          wrapper.style.transition = "transform 0.3s ease-out";
-          wrapper.style.transform = `translateY(${currentPosition}px)`;
-          highlightChosen(centerPositionIndex);
-          return; // arrêt de l'animation
-        }
-
-        wrapper.style.transform = `translateY(${currentPosition}px)`;
-
-        if (speed > minSpeed) {
-          speed -= deceleration;
-          if (speed < minSpeed) speed = minSpeed;
-        }
-
-        requestAnimationFrame(animate);
+    // Quand l'animation est finie, on met en évidence le film ciblé
+    wrapper.addEventListener("transitionend", function handler() {
+      wrapper.removeEventListener("transitionend", handler);
+      const items = wrapper.querySelectorAll(".roulette-item");
+      if (items[finalIndex]) {
+        items.forEach(el => el.classList.remove("center"));
+        items[finalIndex].classList.add("center");
       }
-
-      function highlightChosen(index) {
-        // enlève la classe center de tous les items
-        wrapper.querySelectorAll(".roulette-item").forEach(item => item.classList.remove("center"));
-        // ajoute la classe center à l'item choisi
-        const items = wrapper.querySelectorAll(".roulette-item");
-        if (items[index]) {
-          items[index].classList.add("center");
-        }
-      }
-
-      animate();
     });
   });
 }
+
 
 function showFeedback(message, success = true) {
   feedback.textContent = message;
   feedback.style.color = success ? "#00ff9d" : "#ff5555";
   setTimeout(() => feedback.textContent = "", 3000);
 }
+
 
 
 
