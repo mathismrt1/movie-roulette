@@ -188,12 +188,12 @@ function pickRandomMovie() {
   });
 }
 
-
 function showFeedback(message, success = true) {
   feedback.textContent = message;
   feedback.style.color = success ? "#00ff9d" : "#ff5555";
   setTimeout(() => feedback.textContent = "", 3000);
 }
+
 
 
 
