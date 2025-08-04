@@ -137,11 +137,15 @@ function pickRandomMovie() {
     const wrapper = document.getElementById("rouletteWrapper");
     wrapper.innerHTML = "";
 
-    // On double la liste pour faire une boucle infinie
-    const doubledMovies = [...movies, ...movies];
+    // Pour que la roulette ait assez d'éléments à défiler, on va répéter plusieurs fois la liste
+    const repeatCount = 10;
+    let spinList = [];
+    for (let i = 0; i < repeatCount; i++) {
+      spinList = spinList.concat(movies);
+    }
 
     // Injecte tous les éléments dans le DOM
-    doubledMovies.forEach((title) => {
+    spinList.forEach((title) => {
       const div = document.createElement("div");
       div.className = "roulette-item";
       div.textContent = title;
@@ -153,32 +157,57 @@ function pickRandomMovie() {
       if (!oneItem) return;
 
       const itemHeight = oneItem.offsetHeight;
-      let position = 0;
 
-      // Met la position initiale (0)
+      // Choix aléatoire de l'index final (dans la liste originale, pas dans la répétée)
+      const chosenIndex = Math.floor(Math.random() * movies.length);
+
+      // Calcul de la position finale : on veut que l'item choisi soit centré dans la zone visible
+      // La zone visible fait 3 items (hauteur 7.2rem, soit 3 x 2.4rem)
+      // L'item central est le 2ème (index 1), donc on décale pour centrer l'item choisi à cette position
+      const centerPositionIndex = chosenIndex + (repeatCount - 1) * movies.length;
+
+      // On veut que la roulette s'arrête avec transform = translateY(itemHeight * position)
+      // Vu qu'on défile du haut vers le bas, on commence à 0, on augmente la position
+      let currentPosition = 0;
+      let maxPosition = centerPositionIndex * itemHeight;
+
+      // Variables pour la gestion de la vitesse (en px / frame)
+      let speed = 30; // départ rapide
+      const minSpeed = 0.5; // vitesse minimale avant arrêt
+      const deceleration = 0.05; // vitesse de ralentissement par frame
+
       wrapper.style.transition = "none";
-      wrapper.style.transform = `translateY(${position}px)`;
-
-      // Durée par frame (en ms) et vitesse (px/frame)
-      const speed = 2; // px par frame
-      const frameDuration = 16; // ~60fps
+      wrapper.style.transform = `translateY(0px)`;
 
       function animate() {
-        position -= speed;
+        currentPosition += speed;
 
-        // Quand on a défilé la moitié (longueur de la liste originale), on reset sans transition
-        if (position <= -movies.length * itemHeight) {
-          position = 0;
-          wrapper.style.transition = "none";
-          wrapper.style.transform = `translateY(${position}px)`;
-          // Forcer le reflow pour que la transition suivante fonctionne bien
-          wrapper.offsetHeight;
+        if (currentPosition >= maxPosition) {
+          currentPosition = maxPosition;
+          wrapper.style.transition = "transform 0.3s ease-out";
+          wrapper.style.transform = `translateY(${currentPosition}px)`;
+          highlightChosen(centerPositionIndex);
+          return; // arrêt de l'animation
         }
 
-        wrapper.style.transition = `transform ${frameDuration}ms linear`;
-        wrapper.style.transform = `translateY(${position}px)`;
+        wrapper.style.transform = `translateY(${currentPosition}px)`;
+
+        if (speed > minSpeed) {
+          speed -= deceleration;
+          if (speed < minSpeed) speed = minSpeed;
+        }
 
         requestAnimationFrame(animate);
+      }
+
+      function highlightChosen(index) {
+        // enlève la classe center de tous les items
+        wrapper.querySelectorAll(".roulette-item").forEach(item => item.classList.remove("center"));
+        // ajoute la classe center à l'item choisi
+        const items = wrapper.querySelectorAll(".roulette-item");
+        if (items[index]) {
+          items[index].classList.add("center");
+        }
       }
 
       animate();
@@ -186,13 +215,12 @@ function pickRandomMovie() {
   });
 }
 
-
-
 function showFeedback(message, success = true) {
   feedback.textContent = message;
   feedback.style.color = success ? "#00ff9d" : "#ff5555";
   setTimeout(() => feedback.textContent = "", 3000);
 }
+
 
 
 
