@@ -135,43 +135,50 @@ function pickRandomMovie() {
     if (movies.length === 0) return;
 
     const wrapper = document.getElementById("rouletteWrapper");
-    let currentIndex = 0;
-    let delay = 100;
-    let step = 0;
-    const maxSteps = 40;
-    const increment = 10;
+    wrapper.innerHTML = "";
 
-    function renderRoulette(centerIndex) {
-      const count = movies.length;
-      const top = movies[(centerIndex - 1 + count) % count];
-      const center = movies[centerIndex % count];
-      const bottom = movies[(centerIndex + 1) % count];
+    // Duplique les titres pour en avoir assez à faire défiler
+    const extendedList = [];
+    const totalSteps = 30;
+    let index = Math.floor(Math.random() * movies.length);
 
-      wrapper.innerHTML = "";
-
-      [top, center, bottom].forEach((title, i) => {
-        const div = document.createElement("div");
-        div.classList.add("roulette-item");
-        if (i === 1) div.classList.add("center");
-        div.textContent = title;
-        wrapper.appendChild(div);
-      });
+    for (let i = 0; i < totalSteps + 3; i++) {
+      const title = movies[(index + i) % movies.length];
+      const div = document.createElement("div");
+      div.className = "roulette-item";
+      div.textContent = title;
+      wrapper.appendChild(div);
     }
 
-    function spin() {
-      renderRoulette(currentIndex);
-      currentIndex = (currentIndex + 1) % movies.length;
-      step++;
+    // Animation
+    let position = 0;
+    let currentStep = 0;
+    let delay = 50;
 
-      if (step < maxSteps) {
-        setTimeout(spin, delay);
-        delay += increment;
+    function animateStep() {
+      position += 2.4; // hauteur d’un item
+      wrapper.style.transition = `transform ${delay}ms ease-out`;
+      wrapper.style.transform = `translateY(-${position}px)`;
+
+      currentStep++;
+      if (currentStep < totalSteps) {
+        delay += 10; // ralentissement progressif
+        setTimeout(animateStep, delay);
+      } else {
+        // Highlight final
+        const allItems = wrapper.querySelectorAll('.roulette-item');
+        allItems.forEach(item => item.classList.remove("center"));
+
+        const centerIndex = currentStep + 1; // le 2e item après arrêt
+        const finalItem = allItems[centerIndex];
+        if (finalItem) finalItem.classList.add("center");
       }
     }
 
-    spin();
+    animateStep();
   });
 }
+
 
 
 
@@ -180,5 +187,6 @@ function showFeedback(message, success = true) {
   feedback.style.color = success ? "#00ff9d" : "#ff5555";
   setTimeout(() => feedback.textContent = "", 3000);
 }
+
 
 
