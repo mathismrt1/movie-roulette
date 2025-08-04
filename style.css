@@ -258,12 +258,13 @@ body {
 /* === RESPONSIVE === */
 @media (max-width: 480px) {
   body {
-    background-color: red !important;
+    background-color: red !important; /* Test visible */
   }
   
   #authSection {
     flex-direction: column;
-    align-items: center;
+    align-items: stretch; /* pour que inputs et bouton prennent toute la largeur */
+    text-align: center; /* centre le titre */
   }
 
   #authSection h2 {
@@ -276,6 +277,7 @@ body {
   #authSection input[type="password"],
   #loginButton {
     width: 100%;
+    box-sizing: border-box; /* inclut padding et bordures dans la largeur */
   }
 
   #appSection {
@@ -303,6 +305,7 @@ input:-moz-autofill {
   box-shadow: 0 0 0 1000px #152238 inset !important;
   -moz-text-fill-color: #f0f0f0 !important;
 }
+
 
 
 
