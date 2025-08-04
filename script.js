@@ -146,10 +146,10 @@ function pickRandomMovie() {
     const wrapper = document.getElementById("rouletteWrapper");
     wrapper.innerHTML = "";
 
-    const itemHeight = 38; // doit correspondre à .roulette-item height
+    const itemHeight = wrapper.querySelector(".roulette-item").offsetHeight;
     const visibleItems = 3;
     const centerOffset = Math.floor(visibleItems / 2);
-    const cycles = 5;
+    const cycles = 3;
 
     const extendedList = [];
     for (let i = 0; i < cycles; i++) {
@@ -176,7 +176,7 @@ function pickRandomMovie() {
 
     // Animation fluide avec easing
     const pixelsToScroll = translateY;
-    const pixelsPerSecond = 300;
+    const pixelsPerSecond = 600;
     const duration = pixelsToScroll / pixelsPerSecond;
 
     wrapper.style.transition = "none";
@@ -192,6 +192,7 @@ function pickRandomMovie() {
       items.forEach(item => item.classList.remove("center"));
       if (items[targetIndex]) {
         items[targetIndex].classList.add("center");
+        items[targetIndex].classList.add("highlight");
       }
       pickButton.disabled = false;
     });
@@ -204,6 +205,7 @@ function showFeedback(message, success = true) {
   feedback.style.color = success ? "#00ff9d" : "#ff5555";
   setTimeout(() => feedback.textContent = "", 3000);
 }
+
 
 
 
