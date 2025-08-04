@@ -82,7 +82,6 @@ onAuthStateChanged(auth, (user) => {
     appSection.style.display = "none";
     addButton.disabled = true;
     movieList.innerHTML = "";
-    pickedMovie.textContent = "";
   }
 });
 
@@ -218,6 +217,7 @@ function showFeedback(message, success = true) {
   feedback.style.color = success ? "#00ff9d" : "#ff5555";
   setTimeout(() => feedback.textContent = "", 3000);
 }
+
 
 
 
