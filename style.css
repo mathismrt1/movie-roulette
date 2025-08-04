@@ -1,4 +1,4 @@
-/* Reset et styles de base */
+/* === RESET & STYLES DE BASE === */
 body {
   background-color: #0b1d33;
   color: #f0f0f0;
@@ -12,7 +12,7 @@ body {
   box-sizing: border-box;
 }
 
-/* Conteneur auth en ligne */
+/* === SECTION CONNEXION === */
 #authSection {
   display: flex;
   align-items: center;
@@ -23,7 +23,6 @@ body {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
 }
 
-/* Input commun */
 #authSection input[type="email"],
 #authSection input[type="password"] {
   padding: 1rem 0.75rem;
@@ -36,18 +35,15 @@ body {
   transition: border-color 0.3s;
 }
 
-#authSection input[type="email"]::placeholder,
-#authSection input[type="password"]::placeholder {
+#authSection input::placeholder {
   color: #8fa3bf;
 }
 
-#authSection input[type="email"]:focus,
-#authSection input[type="password"]:focus {
+#authSection input:focus {
   outline: none;
   border-color: #1e90ff;
 }
 
-/* Bouton connexion */
 #loginButton {
   background-color: #1e90ff;
   color: white;
@@ -63,23 +59,7 @@ body {
   background-color: #1573cc;
 }
 
-/* Responsive authSection */
-@media (max-width: 480px) {
-  #authSection {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  #authSection input[type="email"],
-  #authSection input[type="password"],
-  #loginButton {
-    width: 100%;
-  }
-}
-
-/* === STYLES POUR L'APP PRINCIPALE === */
-
-/* Conteneur principal */
+/* === SECTION PRINCIPALE === */
 #appSection {
   background-color: #1b2a42;
   padding: 2rem;
@@ -90,7 +70,6 @@ body {
   box-sizing: border-box;
 }
 
-/* Header avec titre et bouton déconnexion */
 #appSection .header {
   display: flex;
   justify-content: space-between;
@@ -119,7 +98,7 @@ body {
   background-color: #cc4a4a;
 }
 
-/* Wrapper input + bouton Ajouter */
+/* === AJOUT DE FILMS === */
 .input-wrapper {
   display: flex;
   gap: 0.75rem;
@@ -166,7 +145,7 @@ body {
   background-color: #1573cc;
 }
 
-/* Feedback */
+/* === FEEDBACK === */
 #feedback {
   height: 24px;
   text-align: center;
@@ -175,7 +154,7 @@ body {
   color: #00ff9d;
 }
 
-/* Bouton choisir un film */
+/* === BOUTON TIRAGE === */
 #pickButton {
   display: block;
   width: 100%;
@@ -194,24 +173,44 @@ body {
   background-color: #1573cc;
 }
 
-/* Film choisi */
-#pickedMovie {
-  background-color: #174875;
-  color: #ffffff;
-  padding: 1rem;
-  border-radius: 8px;
-  font-weight: bold;
-  text-align: center;
-  font-size: 1.3rem;
-  margin-bottom: 2rem;
-  min-width: 300px;
-  height: 3rem;
-  line-height: 3rem;
+/* === ROULETTE === */
+#rouletteContainer {
+  height: 7.2rem; /* 3 items à 2.4rem */
   overflow: hidden;
-  white-space: nowrap;
+  position: relative;
+  margin-bottom: 2rem;
+  display: flex;
+  justify-content: center;
 }
 
-/* Liste des films */
+#rouletteWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.3s ease-out;
+  will-change: transform;
+}
+
+.roulette-item {
+  height: 2.4rem;
+  line-height: 2.4rem;
+  text-align: center;
+  width: 100%;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #ffffff;
+  opacity: 0.4;
+  transform: scale(0.9);
+  transition: all 0.3s ease;
+}
+
+.roulette-item.center {
+  opacity: 1;
+  transform: scale(1.2);
+  color: #ffcc00;
+}
+
+/* === LISTE DES FILMS === */
 #movieList {
   list-style: none;
   padding: 1rem;
@@ -219,14 +218,11 @@ body {
   background-color: #152238;
   box-shadow: inset 0 0 5px rgba(0,0,0,0.3);
   margin: 0;
-  /* max-height: 300px; */
-  /* overflow-y: auto; */
 }
 
 #movieList li {
   padding: 0.5rem 0.75rem;
   border-bottom: 1px solid #2f3f59;
-  position: relative;
   font-size: 1rem;
   display: flex;
   justify-content: space-between;
@@ -248,8 +244,18 @@ body {
   color: #ff2a2a;
 }
 
-/* Responsive appSection */
+/* === RESPONSIVE === */
 @media (max-width: 480px) {
+  #authSection {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  #authSection input,
+  #loginButton {
+    width: 100%;
+  }
+
   #appSection {
     padding: 1rem;
     width: 100%;
@@ -264,40 +270,14 @@ body {
   }
 }
 
-#rouletteContainer {
-  height: 7.2rem; /* 3 items à 2.4rem chacun */
-  overflow: hidden;
-  position: relative;
-  margin-bottom: 2rem;
-  display: flex;
-  justify-content: center;
+/* === AUTOFILL CORRECTIONS === */
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 1000px #152238 inset !important;
+  -webkit-text-fill-color: #f0f0f0 !important;
+  transition: background-color 5000s ease-in-out 0s;
 }
 
-#rouletteWrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  transition: transform 0.3s ease-out;
+input:-moz-autofill {
+  box-shadow: 0 0 0 1000px #152238 inset !important;
+  -moz-text-fill-color: #f0f0f0 !important;
 }
-
-.roulette-item {
-  height: 2.4rem;
-  line-height: 2.4rem;
-  text-align: center;
-  width: 100%;
-  font-size: 1.2rem;
-  font-weight: bold;
-  color: #ffffff;
-  opacity: 0.4;
-  transform: scale(0.9);
-}
-
-.roulette-item.center {
-  opacity: 1;
-  transform: scale(1.2);
-  color: #ffcc00;
-}
-
-
-
-
