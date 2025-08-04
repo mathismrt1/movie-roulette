@@ -126,33 +126,39 @@ function loadMovies(editable = false) {
 }
 
 function pickRandomMovie() {
+  // Empêcher de relancer si une animation est en cours
+  if (pickButton.disabled) return;
+  pickButton.disabled = true;
+
   const moviesRef = ref(db, "movies");
   get(moviesRef).then((snapshot) => {
     const data = snapshot.val();
-    if (!data) return;
+    if (!data) {
+      pickButton.disabled = false;
+      return;
+    }
 
     const movies = Object.values(data).map(m => m.title);
-    if (movies.length === 0) return;
+    if (movies.length === 0) {
+      pickButton.disabled = false;
+      return;
+    }
 
     const wrapper = document.getElementById("rouletteWrapper");
     wrapper.innerHTML = "";
 
-    // Choisir un film au hasard (index cible)
-    const targetIndex = Math.floor(Math.random() * movies.length);
+    const totalCycles = 5;
+    const itemsToShow = 3;
+    const offset = Math.floor(itemsToShow / 2);
 
-    // On va créer une liste suffisamment longue pour le défilement
-    const totalCycles = 5; // combien de fois on fait défiler la liste complète
-    const itemsToShow = 3; // nombre d'items visibles (centré sur le 2ème)
-    const fullListLength = movies.length * totalCycles + itemsToShow; 
+    const targetIndex = Math.floor(Math.random() * movies.length);
+    const finalIndex = totalCycles * movies.length + targetIndex;
 
     const spinList = [];
-
-    // Construire la liste : répéter les films plusieurs fois + buffer pour centrer
-    for (let i = 0; i < fullListLength; i++) {
+    for (let i = 0; i < totalCycles * movies.length + itemsToShow; i++) {
       spinList.push(movies[i % movies.length]);
     }
 
-    // Injecter les éléments
     spinList.forEach(title => {
       const div = document.createElement("div");
       div.className = "roulette-item";
@@ -160,30 +166,36 @@ function pickRandomMovie() {
       wrapper.appendChild(div);
     });
 
-    const itemHeight = wrapper.querySelector(".roulette-item").offsetHeight;
+    requestAnimationFrame(() => {
+      const itemHeight = wrapper.querySelector(".roulette-item").offsetHeight;
+      const finalTranslateY = -((finalIndex - offset) * itemHeight);
+      const pixelsToScroll = Math.abs(finalTranslateY);
+      const pixelsPerSecond = 300;
+      const duration = pixelsToScroll / pixelsPerSecond;
 
-    // Calculer la position finale : 
-    // On veut que le film cible soit centré, donc translation = -( (totalItemsBeforeTarget + offset) * itemHeight )
-    // offset = itemsToShow // 2 pour centrer (ex: 1 si 3 items visibles)
-    const offset = Math.floor(itemsToShow / 2);
-    const finalIndex = totalCycles * movies.length + targetIndex;
-    const finalTranslateY = -((finalIndex - offset) * itemHeight);
+      // Reset transform avant animation
+      wrapper.style.transition = "none";
+      wrapper.style.transform = `translateY(0px)`;
 
-    // Déclencher l'animation CSS
-    wrapper.style.transition = "transform 5s cubic-bezier(0.33, 1, 0.68, 1)"; // easing pour ralentir
-    wrapper.style.transform = `translateY(${finalTranslateY}px)`;
+      // Forcer un reflow pour appliquer la transition proprement
+      void wrapper.offsetHeight;
 
-    // Enlever les classes center au départ
-    wrapper.querySelectorAll(".roulette-item").forEach(el => el.classList.remove("center"));
+      // Appliquer la transition
+      wrapper.style.transition = `transform ${duration}s cubic-bezier(0.33, 1, 0.68, 1)`;
+      wrapper.style.transform = `translateY(${finalTranslateY}px)`;
 
-    // Quand l'animation est finie, on met en évidence le film ciblé
-    wrapper.addEventListener("transitionend", function handler() {
-      wrapper.removeEventListener("transitionend", handler);
-      const items = wrapper.querySelectorAll(".roulette-item");
-      if (items[finalIndex]) {
+      // Nettoyage + affichage du film sélectionné
+      const onEnd = () => {
+        wrapper.removeEventListener("transitionend", onEnd);
+        const items = wrapper.querySelectorAll(".roulette-item");
         items.forEach(el => el.classList.remove("center"));
-        items[finalIndex].classList.add("center");
-      }
+        if (items[finalIndex]) {
+          items[finalIndex].classList.add("center");
+        }
+        pickButton.disabled = false; // Réactiver le bouton
+      };
+
+      wrapper.addEventListener("transitionend", onEnd);
     });
   });
 }
@@ -193,6 +205,7 @@ function showFeedback(message, success = true) {
   feedback.style.color = success ? "#00ff9d" : "#ff5555";
   setTimeout(() => feedback.textContent = "", 3000);
 }
+
 
 
 
