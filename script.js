@@ -137,41 +137,47 @@ function pickRandomMovie() {
     const wrapper = document.getElementById("rouletteWrapper");
     wrapper.innerHTML = "";
 
-    // Duplique les titres pour en avoir assez à faire défiler
-    const extendedList = [];
     const totalSteps = 30;
-    let index = Math.floor(Math.random() * movies.length);
+    const bufferItems = 2;
+    const spinList = [];
 
-    for (let i = 0; i < totalSteps + 3; i++) {
-      const title = movies[(index + i) % movies.length];
+    // Construire une liste plus longue pour l'animation
+    let index = Math.floor(Math.random() * movies.length);
+    for (let i = 0; i < totalSteps + bufferItems; i++) {
+      spinList.push(movies[index % movies.length]);
+      index++;
+    }
+
+    // Injecter tous les éléments dans le DOM
+    spinList.forEach((title) => {
       const div = document.createElement("div");
       div.className = "roulette-item";
       div.textContent = title;
       wrapper.appendChild(div);
-    }
+    });
 
-    // Animation
+    let step = 0;
     let position = 0;
-    let currentStep = 0;
     let delay = 20;
+    const itemHeight = 2.4; // en rem
 
     function animateStep() {
-      position += 2.4; // hauteur d’un item
+      position += itemHeight;
       wrapper.style.transition = `transform ${delay}ms ease-out`;
-      wrapper.style.transform = `translateY(${position}px)`;
+      wrapper.style.transform = `translateY(${position}rem)`; // utiliser rem
 
-      currentStep++;
-      if (currentStep < totalSteps) {
-        delay += 8; // ralentissement progressif
+      step++;
+      if (step < totalSteps) {
+        delay += 8;
         setTimeout(animateStep, delay);
       } else {
-        // Highlight final
-        const allItems = wrapper.querySelectorAll('.roulette-item');
-        allItems.forEach(item => item.classList.remove("center"));
+        // Effacer tous les .center
+        const items = wrapper.querySelectorAll(".roulette-item");
+        items.forEach(el => el.classList.remove("center"));
 
-        const centerIndex = currentStep + 1; // le 2e item après arrêt
-        const finalItem = allItems[centerIndex];
-        if (finalItem) finalItem.classList.add("center");
+        // Centrer l'élément choisi visuellement
+        const targetIndex = step + 1;
+        if (items[targetIndex]) items[targetIndex].classList.add("center");
       }
     }
 
@@ -180,13 +186,12 @@ function pickRandomMovie() {
 }
 
 
-
-
 function showFeedback(message, success = true) {
   feedback.textContent = message;
   feedback.style.color = success ? "#00ff9d" : "#ff5555";
   setTimeout(() => feedback.textContent = "", 3000);
 }
+
 
 
 
