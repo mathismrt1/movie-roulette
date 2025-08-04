@@ -150,17 +150,14 @@ function pickRandomMovie() {
     const centerOffset = Math.floor(visibleItems / 2);
     const cycles = 3;
 
+    // Créer une longue liste de films
     const extendedList = [];
     for (let i = 0; i < cycles; i++) {
       extendedList.push(...movies);
     }
+    extendedList.push(...movies.slice(0, visibleItems)); // buffer pour éviter vide
 
-    const itemHeight = wrapper.querySelector(".roulette-item").offsetHeight;
-
-    // Ajout de quelques items buffer après pour éviter "vide"
-    extendedList.push(...movies.slice(0, visibleItems));
-
-    // Injecter les éléments
+    // Injecter les éléments dans le DOM
     extendedList.forEach(title => {
       const div = document.createElement("div");
       div.className = "roulette-item";
@@ -168,35 +165,43 @@ function pickRandomMovie() {
       wrapper.appendChild(div);
     });
 
-    // Sélection aléatoire d’un film dans la DERNIÈRE boucle pour que l’animation soit longue
-    const targetInOriginal = Math.floor(Math.random() * movies.length);
-    const targetIndex = (cycles - 1) * movies.length + targetInOriginal;
+    // ⚠️ Attendre que le DOM soit prêt avant de mesurer
+    setTimeout(() => {
+      const itemHeight = wrapper.querySelector(".roulette-item").offsetHeight;
 
-    // Calcul du translateY pour centrer l’élément cible
-    const translateY = (targetIndex - centerOffset) * itemHeight;
+      // Choisir un film vers la fin
+      const targetInOriginal = Math.floor(Math.random() * movies.length);
+      const targetIndex = (cycles - 1) * movies.length + targetInOriginal;
 
-    // Animation fluide avec easing
-    const pixelsToScroll = translateY;
-    const pixelsPerSecond = 600;
-    const duration = pixelsToScroll / pixelsPerSecond;
+      const translateY = (targetIndex - centerOffset) * itemHeight;
+      const pixelsToScroll = translateY;
+      const pixelsPerSecond = 800; // ← ajuste ici la vitesse
+      const duration = pixelsToScroll / pixelsPerSecond;
 
-    wrapper.style.transition = "none";
-    wrapper.style.transform = "translateY(0px)";
-    void wrapper.offsetHeight;
+      // Animation fluide
+      wrapper.style.transition = "none";
+      wrapper.style.transform = "translateY(0px)";
+      void wrapper.offsetHeight; // forcer le reflow
 
-    wrapper.style.transition = `transform ${duration}s cubic-bezier(0.33, 1, 0.68, 1)`;
-    wrapper.style.transform = `translateY(-${translateY}px)`;
+      wrapper.style.transition = `transform ${duration}s cubic-bezier(0.33, 1, 0.68, 1)`;
+      wrapper.style.transform = `translateY(-${translateY}px)`;
 
-    wrapper.addEventListener("transitionend", function handler() {
-      wrapper.removeEventListener("transitionend", handler);
-      const items = wrapper.querySelectorAll(".roulette-item");
-      items.forEach(item => item.classList.remove("center"));
-      if (items[targetIndex]) {
-        items[targetIndex].classList.add("center");
-        items[targetIndex].classList.add("highlight");
-      }
-      pickButton.disabled = false;
-    });
+      // À la fin de l’animation
+      wrapper.addEventListener("transitionend", function handler() {
+        wrapper.removeEventListener("transitionend", handler);
+
+        const items = wrapper.querySelectorAll(".roulette-item");
+        items.forEach(item => item.classList.remove("center", "highlight"));
+
+        if (items[targetIndex]) {
+          items[targetIndex].classList.add("center");
+          items[targetIndex].classList.add("highlight");
+        }
+
+        pickButton.disabled = false;
+      });
+
+    }, 0); // ← attend une "tick" pour le DOM
   });
 }
 
@@ -206,6 +211,7 @@ function showFeedback(message, success = true) {
   feedback.style.color = success ? "#00ff9d" : "#ff5555";
   setTimeout(() => feedback.textContent = "", 3000);
 }
+
 
 
 
