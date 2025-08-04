@@ -146,7 +146,6 @@ function pickRandomMovie() {
     const wrapper = document.getElementById("rouletteWrapper");
     wrapper.innerHTML = "";
 
-    const itemHeight = wrapper.querySelector(".roulette-item").offsetHeight;
     const visibleItems = 3;
     const centerOffset = Math.floor(visibleItems / 2);
     const cycles = 3;
@@ -155,6 +154,8 @@ function pickRandomMovie() {
     for (let i = 0; i < cycles; i++) {
       extendedList.push(...movies);
     }
+
+    const itemHeight = wrapper.querySelector(".roulette-item").offsetHeight;
 
     // Ajout de quelques items buffer après pour éviter "vide"
     extendedList.push(...movies.slice(0, visibleItems));
@@ -205,6 +206,7 @@ function showFeedback(message, success = true) {
   feedback.style.color = success ? "#00ff9d" : "#ff5555";
   setTimeout(() => feedback.textContent = "", 3000);
 }
+
 
 
 
