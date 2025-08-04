@@ -257,6 +257,10 @@ body {
 
 /* === RESPONSIVE === */
 @media (max-width: 480px) {
+  body {
+    background-color: red !important;
+  }
+  
   #authSection {
     flex-direction: column;
     align-items: center;
@@ -299,6 +303,7 @@ input:-moz-autofill {
   box-shadow: 0 0 0 1000px #152238 inset !important;
   -moz-text-fill-color: #f0f0f0 !important;
 }
+
 
 
 
