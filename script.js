@@ -134,51 +134,45 @@ function pickRandomMovie() {
     const movies = Object.values(data).map(m => m.title);
     if (movies.length === 0) return;
 
-    const wrapper = document.querySelector('.roulette-wrapper');
-    const topItem = wrapper.querySelector('.roulette-item.top');
-    const centerItem = wrapper.querySelector('.roulette-item.center');
-    const bottomItem = wrapper.querySelector('.roulette-item.bottom');
-
+    const wrapper = document.getElementById("rouletteWrapper");
     let currentIndex = 0;
-    let delay = 120;
-    let fastDuration = 2000;
-    let maxDelay = 500;
-    let increment = 50;
-    let elapsed = 0;
+    let delay = 100;
+    let step = 0;
+    const maxSteps = 40;
+    const increment = 10;
 
-    const interval = setInterval(() => {
-      const top = movies[(currentIndex - 1 + movies.length) % movies.length];
-      const center = movies[currentIndex % movies.length];
-      const bottom = movies[(currentIndex + 1) % movies.length];
+    function renderRoulette(centerIndex) {
+      const count = movies.length;
+      const top = movies[(centerIndex - 1 + count) % count];
+      const center = movies[centerIndex % count];
+      const bottom = movies[(centerIndex + 1) % count];
 
-      topItem.textContent = top;
-      centerItem.textContent = center;
-      bottomItem.textContent = bottom;
+      wrapper.innerHTML = "";
 
-      wrapper.style.transform = 'translateY(0)';
-      wrapper.style.transition = 'none';
-      void wrapper.offsetHeight; // force reflow
-      wrapper.style.transition = 'transform 0.3s ease-out';
-      wrapper.style.transform = 'translateY(-2.4rem)';
+      [top, center, bottom].forEach((title, i) => {
+        const div = document.createElement("div");
+        div.classList.add("roulette-item");
+        if (i === 1) div.classList.add("center");
+        div.textContent = title;
+        wrapper.appendChild(div);
+      });
+    }
 
-      currentIndex++;
-      elapsed += delay;
+    function spin() {
+      renderRoulette(currentIndex);
+      currentIndex = (currentIndex + 1) % movies.length;
+      step++;
 
-      if (elapsed > fastDuration) {
+      if (step < maxSteps) {
+        setTimeout(spin, delay);
         delay += increment;
-        if (delay >= maxDelay) {
-          clearInterval(interval);
-          // Stabiliser la roulette sur le gagnant final
-          const winner = movies[(currentIndex - 1 + movies.length) % movies.length];
-          topItem.textContent = "";
-          centerItem.textContent = winner;
-          bottomItem.textContent = "";
-          wrapper.style.transform = 'translateY(-2.4rem)';
-        }
       }
-    }, delay);
+    }
+
+    spin();
   });
 }
+
 
 
 function showFeedback(message, success = true) {
@@ -186,4 +180,5 @@ function showFeedback(message, success = true) {
   feedback.style.color = success ? "#00ff9d" : "#ff5555";
   setTimeout(() => feedback.textContent = "", 3000);
 }
+
 
