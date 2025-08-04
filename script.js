@@ -150,12 +150,12 @@ function pickRandomMovie() {
     const centerOffset = Math.floor(visibleItems / 2);
     const cycles = 3;
 
-    // Créer une longue liste de films
+    // Créer la liste étendue avec buffer pour éviter vide
     const extendedList = [];
     for (let i = 0; i < cycles; i++) {
       extendedList.push(...movies);
     }
-    extendedList.push(...movies.slice(0, visibleItems)); // buffer pour éviter vide
+    extendedList.push(...movies.slice(0, visibleItems)); // buffer
 
     // Injecter les éléments dans le DOM
     extendedList.forEach(title => {
@@ -165,52 +165,57 @@ function pickRandomMovie() {
       wrapper.appendChild(div);
     });
 
-    // ⚠️ Attendre que le DOM soit prêt avant de mesurer
     setTimeout(() => {
-      const itemHeight = wrapper.querySelector(".roulette-item").offsetHeight;
+      const itemHeight = 38; // valeur fixe (tu peux remplacer par mesure dynamique si besoin)
 
-      // Choisir un film vers la fin
+      // Tirage aléatoire dans la liste originale
       const targetInOriginal = Math.floor(Math.random() * movies.length);
       const targetIndex = (cycles - 1) * movies.length + targetInOriginal;
 
+      // Calcul du déplacement vers le bas : translateY positif (défilement vers le bas)
       const translateY = (targetIndex - centerOffset) * itemHeight;
-      const pixelsToScroll = translateY;
-      const pixelsPerSecond = 800; // ← ajuste ici la vitesse
-      const duration = pixelsToScroll / pixelsPerSecond;
 
-      // Animation fluide
+      // Limiter translateY au max possible pour ne pas dépasser le contenu
+      const maxTranslateY = (extendedList.length - visibleItems) * itemHeight;
+      const finalTranslateY = Math.min(translateY, maxTranslateY);
+
+      // Paramètres animation (ajuste ici la vitesse)
+      const pixelsPerSecond = 1600; // plus rapide (800 était trop lent)
+      const duration = finalTranslateY / pixelsPerSecond;
+
       wrapper.style.transition = "none";
       wrapper.style.transform = "translateY(0px)";
-      void wrapper.offsetHeight; // forcer le reflow
+      void wrapper.offsetHeight; // trigger reflow
 
       wrapper.style.transition = `transform ${duration}s cubic-bezier(0.33, 1, 0.68, 1)`;
-      wrapper.style.transform = `translateY(-${translateY}px)`;
+      wrapper.style.transform = `translateY(${finalTranslateY}px)`; // vers le bas !
 
-      // À la fin de l’animation
       wrapper.addEventListener("transitionend", function handler() {
         wrapper.removeEventListener("transitionend", handler);
 
         const items = wrapper.querySelectorAll(".roulette-item");
         items.forEach(item => item.classList.remove("center", "highlight"));
 
-        if (items[targetIndex]) {
-          items[targetIndex].classList.add("center");
-          items[targetIndex].classList.add("highlight");
+        // L'index de l'item centré visible (défilement vers le bas)
+        const highlightIndex = Math.round(finalTranslateY / itemHeight) + centerOffset;
+
+        if (items[highlightIndex]) {
+          items[highlightIndex].classList.add("center", "highlight");
+          pickedMovie.textContent = `🎬 Film choisi : ${items[highlightIndex].textContent}`;
         }
 
         pickButton.disabled = false;
       });
-
-    }, 0); // ← attend une "tick" pour le DOM
+    }, 0);
   });
 }
-
 
 function showFeedback(message, success = true) {
   feedback.textContent = message;
   feedback.style.color = success ? "#00ff9d" : "#ff5555";
   setTimeout(() => feedback.textContent = "", 3000);
 }
+
 
 
 
