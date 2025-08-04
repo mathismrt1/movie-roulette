@@ -138,17 +138,16 @@ function pickRandomMovie() {
     wrapper.innerHTML = "";
 
     const totalSteps = 30;
-    const bufferItems = 2;
+    const bufferItems = 3; // pour que le film final soit bien centré
     const spinList = [];
 
-    // Construire une liste plus longue pour l'animation
     let index = Math.floor(Math.random() * movies.length);
     for (let i = 0; i < totalSteps + bufferItems; i++) {
       spinList.push(movies[index % movies.length]);
       index++;
     }
 
-    // Injecter tous les éléments dans le DOM
+    // Injecte tous les éléments dans le DOM
     spinList.forEach((title) => {
       const div = document.createElement("div");
       div.className = "roulette-item";
@@ -156,32 +155,39 @@ function pickRandomMovie() {
       wrapper.appendChild(div);
     });
 
-    let step = 0;
-    let position = 0;
-    let delay = 20;
-    const itemHeight = 2.4; // en rem
+    // 🔸 Attendre le DOM prêt pour calculer la hauteur exacte
+    requestAnimationFrame(() => {
+      const oneItem = wrapper.querySelector(".roulette-item");
+      if (!oneItem) return;
 
-    function animateStep() {
-      position += itemHeight;
-      wrapper.style.transition = `transform ${delay}ms ease-out`;
-      wrapper.style.transform = `translateY(${position}rem)`; // utiliser rem
+      const itemHeight = oneItem.offsetHeight;
+      let position = 0;
+      let delay = 20;
+      let step = 0;
 
-      step++;
-      if (step < totalSteps) {
-        delay += 8;
-        setTimeout(animateStep, delay);
-      } else {
-        // Effacer tous les .center
-        const items = wrapper.querySelectorAll(".roulette-item");
-        items.forEach(el => el.classList.remove("center"));
+      function animateStep() {
+        position += itemHeight;
+        wrapper.style.transition = `transform ${delay}ms ease-out`;
+        wrapper.style.transform = `translateY(${position}px)`;
 
-        // Centrer l'élément choisi visuellement
-        const targetIndex = step + 1;
-        if (items[targetIndex]) items[targetIndex].classList.add("center");
+        step++;
+        if (step < totalSteps) {
+          delay += 8;
+          setTimeout(animateStep, delay);
+        } else {
+          // Effacer tous les .center
+          const items = wrapper.querySelectorAll(".roulette-item");
+          items.forEach(el => el.classList.remove("center"));
+
+          const centerIndex = step + 1;
+          if (items[centerIndex]) {
+            items[centerIndex].classList.add("center");
+          }
+        }
       }
-    }
 
-    animateStep();
+      animateStep();
+    });
   });
 }
 
@@ -191,6 +197,7 @@ function showFeedback(message, success = true) {
   feedback.style.color = success ? "#00ff9d" : "#ff5555";
   setTimeout(() => feedback.textContent = "", 3000);
 }
+
 
 
 
