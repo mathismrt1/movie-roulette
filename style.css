@@ -48,11 +48,12 @@ body {
   background-color: #1e90ff;
   color: white;
   border: none;
-  padding: 0.5rem 1.25rem;
+  padding: 1rem 1.25rem;
   font-size: 1rem;
   border-radius: 6px;
   cursor: pointer;
   transition: background-color 0.3s;
+  height: auto;
 }
 
 #loginButton:hover {
@@ -292,6 +293,7 @@ input:-moz-autofill {
   box-shadow: 0 0 0 1000px #152238 inset !important;
   -moz-text-fill-color: #f0f0f0 !important;
 }
+
 
 
 
