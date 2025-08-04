@@ -153,16 +153,16 @@ function pickRandomMovie() {
     // Animation
     let position = 0;
     let currentStep = 0;
-    let delay = 50;
+    let delay = 20;
 
     function animateStep() {
       position += 2.4; // hauteur d’un item
       wrapper.style.transition = `transform ${delay}ms ease-out`;
-      wrapper.style.transform = `translateY(-${position}px)`;
+      wrapper.style.transform = `translateY(${position}px)`;
 
       currentStep++;
       if (currentStep < totalSteps) {
-        delay += 10; // ralentissement progressif
+        delay += 8; // ralentissement progressif
         setTimeout(animateStep, delay);
       } else {
         // Highlight final
@@ -187,6 +187,7 @@ function showFeedback(message, success = true) {
   feedback.style.color = success ? "#00ff9d" : "#ff5555";
   setTimeout(() => feedback.textContent = "", 3000);
 }
+
 
 
 
