@@ -137,63 +137,55 @@ function pickRandomMovie() {
     const wrapper = document.getElementById("rouletteWrapper");
     wrapper.innerHTML = "";
 
-    const totalSteps = 30;
-    const bufferItems = 3; // pour que le film final soit bien centré
-    const spinList = [];
-
-    let index = Math.floor(Math.random() * movies.length);
-    for (let i = 0; i < totalSteps + bufferItems; i++) {
-      spinList.push(movies[index % movies.length]);
-      index++;
-    }
+    // On double la liste pour faire une boucle infinie
+    const doubledMovies = [...movies, ...movies];
 
     // Injecte tous les éléments dans le DOM
-    spinList.forEach((title) => {
+    doubledMovies.forEach((title) => {
       const div = document.createElement("div");
       div.className = "roulette-item";
       div.textContent = title;
       wrapper.appendChild(div);
     });
 
-    console.log("NOMBRE D'ÉLÉMENTS RENDUS :", wrapper.children.length);
-
-
-    // 🔸 Attendre le DOM prêt pour calculer la hauteur exacte
     requestAnimationFrame(() => {
       const oneItem = wrapper.querySelector(".roulette-item");
       if (!oneItem) return;
 
       const itemHeight = oneItem.offsetHeight;
-      console.log("Hauteur réelle d'un item :", itemHeight);
       let position = 0;
-      let delay = 20;
-      let step = 0;
 
-      function animateStep() {
-        position += itemHeight;
-        wrapper.style.transition = `transform ${delay}ms ease-out`;
+      // Met la position initiale (0)
+      wrapper.style.transition = "none";
+      wrapper.style.transform = `translateY(${position}px)`;
+
+      // Durée par frame (en ms) et vitesse (px/frame)
+      const speed = 2; // px par frame
+      const frameDuration = 16; // ~60fps
+
+      function animate() {
+        position -= speed;
+
+        // Quand on a défilé la moitié (longueur de la liste originale), on reset sans transition
+        if (position <= -movies.length * itemHeight) {
+          position = 0;
+          wrapper.style.transition = "none";
+          wrapper.style.transform = `translateY(${position}px)`;
+          // Forcer le reflow pour que la transition suivante fonctionne bien
+          wrapper.offsetHeight;
+        }
+
+        wrapper.style.transition = `transform ${frameDuration}ms linear`;
         wrapper.style.transform = `translateY(${position}px)`;
 
-        step++;
-        if (step < totalSteps) {
-          delay += 8;
-          setTimeout(animateStep, delay);
-        } else {
-          // Effacer tous les .center
-          const items = wrapper.querySelectorAll(".roulette-item");
-          items.forEach(el => el.classList.remove("center"));
-
-          const centerIndex = step + 1;
-          if (items[centerIndex]) {
-            items[centerIndex].classList.add("center");
-          }
-        }
+        requestAnimationFrame(animate);
       }
 
-      animateStep();
+      animate();
     });
   });
 }
+
 
 
 function showFeedback(message, success = true) {
@@ -201,6 +193,7 @@ function showFeedback(message, success = true) {
   feedback.style.color = success ? "#00ff9d" : "#ff5555";
   setTimeout(() => feedback.textContent = "", 3000);
 }
+
 
 
 
