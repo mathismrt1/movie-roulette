@@ -155,12 +155,16 @@ function pickRandomMovie() {
       wrapper.appendChild(div);
     });
 
+    console.log("NOMBRE D'ÉLÉMENTS RENDUS :", wrapper.children.length);
+
+
     // 🔸 Attendre le DOM prêt pour calculer la hauteur exacte
     requestAnimationFrame(() => {
       const oneItem = wrapper.querySelector(".roulette-item");
       if (!oneItem) return;
 
       const itemHeight = oneItem.offsetHeight;
+      console.log("Hauteur réelle d'un item :", itemHeight);
       let position = 0;
       let delay = 20;
       let step = 0;
@@ -197,6 +201,7 @@ function showFeedback(message, success = true) {
   feedback.style.color = success ? "#00ff9d" : "#ff5555";
   setTimeout(() => feedback.textContent = "", 3000);
 }
+
 
 
 
