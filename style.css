@@ -182,6 +182,14 @@ body {
   margin-bottom: 2rem;
   display: flex;
   justify-content: center;
+  align-items: center;
+  border: 2px solid #ffcc00;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(255, 204, 0, 0.3);
+  width: 100%;
+  max-width: 480px; /* même largeur que #appSection */
+  margin-left: auto;
+  margin-right: auto;
 }
 
 #rouletteWrapper {
@@ -288,6 +296,7 @@ input:-moz-autofill {
   box-shadow: 0 0 0 1000px #152238 inset !important;
   -moz-text-fill-color: #f0f0f0 !important;
 }
+
 
 
 
