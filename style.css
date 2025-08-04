@@ -73,18 +73,23 @@ body {
 
 #appSection .header {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   margin-bottom: 1.5rem;
+  position: relative;
 }
 
 #appSection .header h1 {
   margin: 0;
   font-size: 1.8rem;
   color: #ffffff;
+  flex: 1;
+  text-align: center;
 }
 
 #logoutButton {
+  position: absolute;
+  right: 0;
   background-color: #ff5c5c;
   border: none;
   color: white;
@@ -271,6 +276,7 @@ body {
     width: 100%;
     text-align: center;
     margin-bottom: 1rem;
+    user-select: none;
   }
 
   #authSection input[type="email"],
@@ -305,6 +311,7 @@ input:-moz-autofill {
   box-shadow: 0 0 0 1000px #152238 inset !important;
   -moz-text-fill-color: #f0f0f0 !important;
 }
+
 
 
 
