@@ -33,8 +33,7 @@ body {
 }
 
 #authSection input[type="email"],
-#authSection input[type="password"],
-#loginButton {
+#authSection input[type="password"] {
   width: 100%;
   max-width: 100%;
   box-sizing: border-box;
@@ -44,6 +43,20 @@ body {
   border-radius: 6px;
   border: 1px solid #3a4a6a;
   background-color: #152238;
+  color: #f0f0f0;
+  transition: border-color 0.3s;
+}
+
+#loginButton {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 0.75rem;
+  padding: 1rem 0.75rem;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: 1px solid #3a4a6a;
+  background-color: #1573cc;
   color: #f0f0f0;
   transition: border-color 0.3s;
 }
@@ -58,7 +71,7 @@ body {
 }
 
 #loginButton:hover {
-  background-color: #1573cc;
+  background-color: #ff5c5c;
 }
 
 /* === SECTION PRINCIPALE === */
@@ -331,6 +344,7 @@ input:-moz-autofill {
   -moz-text-fill-color: #f0f0f0 !important;
   margin-bottom: 0.75rem !important;
 }
+
 
 
 
