@@ -116,12 +116,14 @@ body {
 /* === AJOUT DE FILMS === */
 .input-wrapper {
   display: flex;
+  flex-wrap: wrap;
   gap: 0.75rem;
   margin-bottom: 1rem;
 }
 
 #movieInput {
-  flex: 1;
+  flex: 1 1 65%;
+  min-width: 0;
   padding: 0.6rem 1rem;
   font-size: 1rem;
   border-radius: 6px;
@@ -149,6 +151,7 @@ body {
   border-radius: 6px;
   cursor: pointer;
   transition: background-color 0.3s;
+  flex: 0 0 auto;
 }
 
 #addButton:disabled {
@@ -344,6 +347,7 @@ input:-moz-autofill {
   -moz-text-fill-color: #f0f0f0 !important;
   margin-bottom: 0.75rem !important;
 }
+
 
 
 
