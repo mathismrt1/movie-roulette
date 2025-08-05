@@ -267,9 +267,8 @@ body {
   #authSection {
     flex-direction: column;
     align-items: stretch;
-    gap: 1rem; /* fix spacing */
-    min-height: 220px; /* block jumping when autofill happens */
-    padding: 1.5rem 1rem;
+    gap: 0;
+    padding: 1rem;
   }
 
   #authSection input[type="email"],
@@ -277,12 +276,13 @@ body {
   #loginButton {
     width: 100%;
     box-sizing: border-box;
+    margin: 0; /* aucun écart */
   }
 
   #authSection h2 {
     text-align: center;
     width: 100%;
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
   }
 
   #appSection {
@@ -312,6 +312,7 @@ input:-moz-autofill {
   -moz-text-fill-color: #f0f0f0 !important;
   margin-bottom: 0.75rem !important;
 }
+
 
 
 
