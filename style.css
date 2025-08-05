@@ -280,7 +280,7 @@ body {
   #loginButton {
     width: 100%;
     box-sizing: border-box;
-    margin-bottom: 0.75rem;
+    margin-bottom: 0.75rem !important;
   }
 
   #appSection {
@@ -302,12 +302,16 @@ input:-webkit-autofill {
   -webkit-box-shadow: 0 0 0 1000px #152238 inset !important;
   -webkit-text-fill-color: #f0f0f0 !important;
   transition: background-color 5000s ease-in-out 0s;
+  margin-bottom: 0.75rem !important;
 }
 
 input:-moz-autofill {
   box-shadow: 0 0 0 1000px #152238 inset !important;
   -moz-text-fill-color: #f0f0f0 !important;
+  margin-bottom: 0.75rem !important;
 }
+
+
 
 
 
