@@ -15,12 +15,15 @@ body {
 /* === SECTION CONNEXION === */
 #authSection {
   display: flex;
-  align-items: center;
-  gap: 0.75rem;
+  flex-direction: column;
+  align-items: stretch;
+  padding: 1rem;
+  width: 100%;
+  max-width: 480px;
   background-color: #1b2a42;
-  padding: 1rem 1.5rem;
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  box-sizing: border-box;
 }
 
 #authSection h2 {
@@ -30,14 +33,18 @@ body {
 }
 
 #authSection input[type="email"],
-#authSection input[type="password"] {
+#authSection input[type="password"],
+#loginButton {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 0.75rem;
   padding: 1rem 0.75rem;
   font-size: 1rem;
   border-radius: 6px;
   border: 1px solid #3a4a6a;
   background-color: #152238;
   color: #f0f0f0;
-  width: 200px;
   transition: border-color 0.3s;
 }
 
@@ -48,18 +55,6 @@ body {
 #authSection input:focus {
   outline: none;
   border-color: #1e90ff;
-}
-
-#loginButton {
-  background-color: #1e90ff;
-  color: white;
-  border: none;
-  padding: 1rem 1.25rem;
-  font-size: 1rem;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  height: auto;
 }
 
 #loginButton:hover {
@@ -262,13 +257,24 @@ body {
   color: #ff2a2a;
 }
 
-/* === RESPONSIVE === */
+
 @media (max-width: 480px) {
+  #authSection h2 {
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+}
+
+/* === RESPONSIVE === */
+/*@media (max-width: 480px) {
   #authSection {
     flex-direction: column;
     align-items: stretch;
     gap: 0px;
     padding: 1rem;
+    width: 100%;
+    max-width: 480px;
+    box-sizing: border-box;
   }
 
   #authSection input[type="email"],
@@ -280,6 +286,7 @@ body {
     margin: 0;
     flex-shrink: 0;
     flex-grow: 0;
+    margin-bottom: 0.75rem;
   }
 
   #authSection input:-webkit-autofill,
@@ -309,11 +316,14 @@ body {
 }
 
 /* === AUTOFILL CORRECTIONS === */
-input:-webkit-autofill {
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
   -webkit-box-shadow: 0 0 0 1000px #152238 inset !important;
   -webkit-text-fill-color: #f0f0f0 !important;
   transition: background-color 5000s ease-in-out 0s;
-  margin-bottom: 0.75rem !important;
+  width: 100% !important;
+  box-sizing: border-box;
 }
 
 input:-moz-autofill {
@@ -321,6 +331,7 @@ input:-moz-autofill {
   -moz-text-fill-color: #f0f0f0 !important;
   margin-bottom: 0.75rem !important;
 }
+
 
 
 
