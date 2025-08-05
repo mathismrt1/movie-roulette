@@ -37,8 +37,7 @@ body {
   border: 1px solid #3a4a6a;
   background-color: #152238;
   color: #f0f0f0;
-  width: 100%;
-  max-width: 300px;
+  width: 200px;
   transition: border-color 0.3s;
 }
 
@@ -267,12 +266,11 @@ body {
 @media (max-width: 480px) {
   #authSection {
     flex-direction: column;
-    align-items: center;
+    align-items: stretch;
     width: 100%;
   }
 
   #authSection h2 {
-    width: 100%;
     text-align: center;
     margin-bottom: 1rem;
   }
@@ -282,6 +280,7 @@ body {
   #loginButton {
     width: 100%;
     box-sizing: border-box;
+    margin-bottom: 0.75rem;
   }
 
   #appSection {
@@ -309,6 +308,7 @@ input:-moz-autofill {
   box-shadow: 0 0 0 1000px #152238 inset !important;
   -moz-text-fill-color: #f0f0f0 !important;
 }
+
 
 
 
