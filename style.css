@@ -267,7 +267,7 @@ body {
   #authSection {
     flex-direction: column;
     align-items: stretch;
-    gap: 4px;
+    gap: 0px;
     padding: 1rem;
   }
 
@@ -275,8 +275,17 @@ body {
   #authSection input[type="password"],
   #loginButton {
     width: 100%;
+    max-width: 100%;
     box-sizing: border-box;
-    margin: 0; /* aucun écart */
+    margin: 0;
+    flex-shrink: 0;
+    flex-grow: 0;
+  }
+
+  #authSection input:-webkit-autofill,
+  #authSection input:-webkit-autofill:hover,
+  #authSection input:-webkit-autofill:focus {
+    transition: background-color 9999s ease-out, color 9999s ease-out;
   }
 
   #authSection h2 {
@@ -312,6 +321,7 @@ input:-moz-autofill {
   -moz-text-fill-color: #f0f0f0 !important;
   margin-bottom: 0.75rem !important;
 }
+
 
 
 
