@@ -60,6 +60,7 @@ body {
   background-color: #1e90ff;
   color: white;
   transition: border-color 0.3s;
+  transition: background-color 0.3s ease;
 }
 
 #loginButton:hover {
@@ -302,6 +303,7 @@ input:-moz-autofill {
   -moz-text-fill-color: #f0f0f0 !important;
   margin-bottom: 0.75rem !important;
 }
+
 
 
 
