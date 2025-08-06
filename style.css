@@ -57,7 +57,7 @@ body {
   border-radius: 6px;
   border: 1px solid #3a4a6a;
   background-color: #1573cc;
-  color: #aac6ff;
+  color: #1e90ff;
   transition: border-color 0.3s;
 }
 
@@ -70,8 +70,8 @@ body {
   border-color: #1e90ff;
 }
 
-#loginButton:hover {
-  background-color: #1eaaff;
+#loginButton:not(:disabled):hover {
+  background-color: #1573cc;
 }
 
 /* === SECTION PRINCIPALE === */
@@ -351,6 +351,7 @@ input:-moz-autofill {
   -moz-text-fill-color: #f0f0f0 !important;
   margin-bottom: 0.75rem !important;
 }
+
 
 
 
