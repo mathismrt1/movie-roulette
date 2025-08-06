@@ -54,11 +54,16 @@ body {
   margin-bottom: 0.75rem;
   padding: 1rem 0.75rem;
   font-size: 1rem;
+  font-weight: bold;
   border-radius: 6px;
   border: 1px solid #3a4a6a;
-  background-color: #1573cc;
-  color: #1e90ff;
+  background-color: #1e90ff;
+  color: white;
   transition: border-color 0.3s;
+}
+
+#loginButton:hover {
+  background-color: #1573cc;
 }
 
 #authSection input::placeholder {
@@ -68,10 +73,6 @@ body {
 #authSection input:focus {
   outline: none;
   border-color: #1e90ff;
-}
-
-#loginButton:not(:disabled):hover {
-  background-color: #1573cc;
 }
 
 /* === SECTION PRINCIPALE === */
@@ -148,6 +149,7 @@ body {
   color: white;
   padding: 0.6rem 1.2rem;
   font-size: 1rem;
+  font-weight: bold;
   border-radius: 6px;
   cursor: pointer;
   transition: background-color 0.3s;
@@ -190,7 +192,6 @@ body {
 #pickButton:hover {
   background-color: #1573cc;
 }
-
 
 /*ROULETTE*/
 #rouletteContainer {
@@ -285,56 +286,6 @@ body {
   }
 }
 
-/* === RESPONSIVE === */
-/*@media (max-width: 480px) {
-  #authSection {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 0px;
-    padding: 1rem;
-    width: 100%;
-    max-width: 480px;
-    box-sizing: border-box;
-  }
-
-  #authSection input[type="email"],
-  #authSection input[type="password"],
-  #loginButton {
-    width: 100%;
-    max-width: 100%;
-    box-sizing: border-box;
-    margin: 0;
-    flex-shrink: 0;
-    flex-grow: 0;
-    margin-bottom: 0.75rem;
-  }
-
-  #authSection input:-webkit-autofill,
-  #authSection input:-webkit-autofill:hover,
-  #authSection input:-webkit-autofill:focus {
-    transition: background-color 9999s ease-out, color 9999s ease-out;
-  }
-
-  #authSection h2 {
-    text-align: center;
-    width: 100%;
-    margin-bottom: 0.5rem;
-  }
-
-  #appSection {
-    padding: 1rem;
-    width: 100%;
-  }
-
-  .input-wrapper {
-    flex-direction: column;
-  }
-
-  #addButton {
-    width: 100%;
-  }
-}
-
 /* === AUTOFILL CORRECTIONS === */
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
@@ -351,6 +302,7 @@ input:-moz-autofill {
   -moz-text-fill-color: #f0f0f0 !important;
   margin-bottom: 0.75rem !important;
 }
+
 
 
 
