@@ -217,23 +217,3 @@ function showFeedback(message, success = true) {
   feedback.style.color = success ? "#00ff9d" : "#ff5555";
   setTimeout(() => feedback.textContent = "", 3000);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
