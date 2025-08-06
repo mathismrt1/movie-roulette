@@ -59,7 +59,7 @@ body {
   border: 1px solid #3a4a6a;
   background-color: #1e90ff;
   color: white;
-  transition: border-color 0.3s;
+  cursor: pointer;
   transition: background-color 0.3s ease;
 }
 
@@ -303,6 +303,7 @@ input:-moz-autofill {
   -moz-text-fill-color: #f0f0f0 !important;
   margin-bottom: 0.75rem !important;
 }
+
 
 
 
