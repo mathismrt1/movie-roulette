@@ -214,21 +214,21 @@ body {
 }
 
 .roulette-item {
-  min-height: 38px;
-  padding: 0 0.5rem;
+  height: 38px;
+  line-height: 38px;
   text-align: center;
   width: 100%;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   font-weight: bold;
   color: #ffffff;
   opacity: 0.4;
   transform: scale(0.9);
   transition: all 0.3s ease;
   box-sizing: border-box;
-  overflow-wrap: break-word;
-  white-space: normal;
-  word-break: break-word;
-  line-height: 1.2;
+
+  white-space: nowrap;             /* une seule ligne */
+  overflow: hidden;                /* cache le surplus */
+  text-overflow: ellipsis;         /* ajoute "..." si trop long */
 }
 
 .roulette-item.center {
@@ -351,6 +351,7 @@ input:-moz-autofill {
   -moz-text-fill-color: #f0f0f0 !important;
   margin-bottom: 0.75rem !important;
 }
+
 
 
 
