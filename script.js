@@ -82,7 +82,6 @@ onAuthStateChanged(auth, (user) => {
     appSection.style.display = "none";
     addButton.disabled = true;
     movieList.innerHTML = "";
-    pickedMovie.textContent = "";
   }
 });
 
@@ -126,57 +125,95 @@ function loadMovies(editable = false) {
 }
 
 function pickRandomMovie() {
+  if (pickButton.disabled) return;
+  pickButton.disabled = true;
+
   const moviesRef = ref(db, "movies");
   get(moviesRef).then((snapshot) => {
     const data = snapshot.val();
-    if (!data) return;
-    const movies = Object.values(data).map(m => m.title);
-    if (movies.length === 0) return;
-
-    let count = 0;
-    let delay = 150;
-    const maxDelay = 500;
-    const increment = 40;
-    const fastDuration = 3000;
-    const startTime = Date.now();
-
-    function spin() {
-      pickedMovie.textContent = movies[count % movies.length];
-      count++;
-      const elapsed = Date.now() - startTime;
-
-      if (elapsed < fastDuration) {
-        setTimeout(spin, delay);
-      } else if (delay < maxDelay) {
-        delay += increment;
-        setTimeout(spin, delay);
-      } else {
-        const randomIndex = Math.floor(Math.random() * movies.length);
-        pickedMovie.textContent = movies[randomIndex];
-        pickedMovie.style.color = "red";
-      }
+    if (!data) {
+      pickButton.disabled = false;
+      return;
     }
 
-    pickedMovie.style.color = "#ffffff";
-    spin();
+    const movies = Object.values(data).map(m => m.title);
+    if (movies.length === 0) {
+      pickButton.disabled = false;
+      return;
+    }
+
+    const wrapper = document.getElementById("rouletteWrapper");
+    if (!wrapper) {
+      console.error("Element #rouletteWrapper manquant.");
+      pickButton.disabled = false;
+      return;
+    }
+
+    wrapper.innerHTML = "";
+
+    const visibleItems = 3;
+    const centerOffset = Math.floor(visibleItems / 2);
+    const cycles = 3;
+
+    const extendedList = [];
+    for (let i = 0; i < cycles; i++) extendedList.push(...movies);
+    extendedList.push(...movies.slice(0, visibleItems)); // Buffer
+
+    extendedList.forEach(title => {
+      const div = document.createElement("div");
+      div.className = "roulette-item";
+      div.textContent = title;
+      wrapper.appendChild(div);
+    });
+
+    setTimeout(() => {
+      const item = wrapper.querySelector(".roulette-item");
+      const itemHeight = item?.offsetHeight || 38;
+
+      const targetInOriginal = Math.floor(Math.random() * movies.length);
+      const targetIndex = (cycles - 1) * movies.length + targetInOriginal;
+
+      // Nouvelle ligne : forcer un déplacement qui tombe pile sur un multiple
+      let translateY = (targetIndex - centerOffset) * itemHeight;
+      translateY = Math.round(translateY / itemHeight) * itemHeight;
+
+      const maxTranslateY = (extendedList.length - visibleItems) * itemHeight;
+      const finalTranslateY = Math.min(translateY, maxTranslateY);
+
+      const pixelsPerSecond = 800;
+      const duration = finalTranslateY / pixelsPerSecond;
+
+      wrapper.style.transition = "none";
+      wrapper.style.transform = "translateY(0px)";
+      void wrapper.offsetHeight;
+
+      wrapper.style.transition = `transform ${duration}s cubic-bezier(0.33, 1, 0.68, 1)`;
+      wrapper.style.transform = `translateY(-${finalTranslateY}px)`;
+
+      wrapper.addEventListener("transitionend", function handler() {
+        wrapper.removeEventListener("transitionend", handler);
+
+        const items = wrapper.querySelectorAll(".roulette-item");
+        items.forEach(item => item.classList.remove("center", "highlight"));
+
+        const highlightIndex = Math.round(finalTranslateY / itemHeight) + centerOffset;
+        const selected = items[highlightIndex];
+        if (selected) {
+          selected.classList.add("center", "highlight");
+        }
+
+        pickButton.disabled = false;
+      });
+    }, 0);
+  }).catch((err) => {
+    console.error("Erreur lors de la récupération des films :", err);
+    pickButton.disabled = false;
   });
 }
+
 
 function showFeedback(message, success = true) {
   feedback.textContent = message;
   feedback.style.color = success ? "#00ff9d" : "#ff5555";
   setTimeout(() => feedback.textContent = "", 3000);
 }
-
-// --- AJOUT : validation login avec touche Entrée sur email et password ---
-const emailInput = document.getElementById("emailInput");
-const passwordInput = document.getElementById("passwordInput");
-
-function tryLoginOnEnter(event) {
-  if (event.key === "Enter") {
-    loginButton.click();
-  }
-}
-
-emailInput.addEventListener("keydown", tryLoginOnEnter);
-passwordInput.addEventListener("keydown", tryLoginOnEnter);

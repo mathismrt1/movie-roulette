@@ -1,4 +1,4 @@
-/* Reset et styles de base */
+/* === RESET & STYLES DE BASE === */
 body {
   background-color: #0b1d33;
   color: #f0f0f0;
@@ -12,75 +12,71 @@ body {
   box-sizing: border-box;
 }
 
-/* Conteneur auth en ligne */
+/* === SECTION CONNEXION === */
 #authSection {
   display: flex;
-  align-items: center;
-  gap: 0.75rem;
+  flex-direction: column;
+  align-items: stretch;
+  padding: 1rem;
+  width: 100%;
+  max-width: 480px;
   background-color: #1b2a42;
-  padding: 1rem 1.5rem;
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  box-sizing: border-box;
 }
 
-/* Input commun */
+#authSection h2 {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
 #authSection input[type="email"],
 #authSection input[type="password"] {
-  padding: 0.5rem 0.75rem;
-  font-size: 0.9rem;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 0.75rem;
+  padding: 1rem 0.75rem;
+  font-size: 1rem;
   border-radius: 6px;
   border: 1px solid #3a4a6a;
   background-color: #152238;
   color: #f0f0f0;
-  width: 200px;
   transition: border-color 0.3s;
 }
 
-#authSection input[type="email"]::placeholder,
-#authSection input[type="password"]::placeholder {
-  color: #8fa3bf;
-}
-
-#authSection input[type="email"]:focus,
-#authSection input[type="password"]:focus {
-  outline: none;
-  border-color: #1e90ff;
-}
-
-/* Bouton connexion */
 #loginButton {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 0.75rem;
+  padding: 1rem 0.75rem;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 6px;
+  border: 1px solid #3a4a6a;
   background-color: #1e90ff;
   color: white;
-  border: none;
-  padding: 0.5rem 1.25rem;
-  font-size: 1rem;
-  border-radius: 6px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s ease;
 }
 
 #loginButton:hover {
   background-color: #1573cc;
 }
 
-/* Responsive authSection */
-@media (max-width: 480px) {
-  #authSection {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  #authSection input[type="email"],
-  #authSection input[type="password"],
-  #loginButton {
-    width: 100%;
-    box-sizing: border-box;
-  }
+#authSection input::placeholder {
+  color: #8fa3bf;
 }
 
-/* === STYLES POUR L'APP PRINCIPALE === */
+#authSection input:focus {
+  outline: none;
+  border-color: #1e90ff;
+}
 
-/* Conteneur principal */
+/* === SECTION PRINCIPALE === */
 #appSection {
   background-color: #1b2a42;
   padding: 2rem;
@@ -91,7 +87,6 @@ body {
   box-sizing: border-box;
 }
 
-/* Header avec titre et bouton déconnexion */
 #appSection .header {
   display: flex;
   justify-content: space-between;
@@ -120,15 +115,17 @@ body {
   background-color: #cc4a4a;
 }
 
-/* Wrapper input + bouton Ajouter */
+/* === AJOUT DE FILMS === */
 .input-wrapper {
   display: flex;
+  flex-wrap: wrap;
   gap: 0.75rem;
   margin-bottom: 0.5rem;
 }
 
 #movieInput {
-  flex: 1;
+  flex: 1 1 65%;
+  min-width: 0;
   padding: 0.6rem 1rem;
   font-size: 1rem;
   border-radius: 6px;
@@ -153,9 +150,11 @@ body {
   color: white;
   padding: 0.6rem 1.2rem;
   font-size: 1rem;
+  font-weight: bold;
   border-radius: 6px;
   cursor: pointer;
   transition: background-color 0.3s;
+  flex: 0 0 auto;
 }
 
 #addButton:disabled {
@@ -167,7 +166,7 @@ body {
   background-color: #1573cc;
 }
 
-/* Feedback */
+/* === FEEDBACK === */
 #feedback {
   height: 24px;
   text-align: center;
@@ -176,7 +175,7 @@ body {
   color: #00ff9d;
 }
 
-/* Bouton choisir un film */
+/* === BOUTON TIRAGE === */
 #pickButton {
   display: block;
   width: 100%;
@@ -195,24 +194,58 @@ body {
   background-color: #1573cc;
 }
 
-/* Film choisi */
-#pickedMovie {
-  background-color: #174875;
-  color: #ffffff;
-  padding: 0 1rem;
-  border-radius: 8px;
-  font-weight: bold;
-  text-align: center;
-  font-size: 1.3rem;
-  margin-bottom: 2rem;
-  min-width: 300px;
-  height: 2.5rem;
-  line-height: 2.5rem;
+/*ROULETTE*/
+#rouletteContainer {
+  display: block;
+  width: 100%;
+  height: 114px; /* 3 items * 38px */
   overflow: hidden;
-  white-space: nowrap;
+  position: relative;
+  margin-bottom: 2rem;
+  border: 2px solid #f18baa;
+  border-radius: 8px;
 }
 
-/* Liste des films */
+#rouletteWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: 100%;
+  transition: transform 0.3s ease-out;
+  will-change: transform;
+}
+
+.roulette-item {
+  height: 38px;
+  line-height: 38px;
+  text-align: center;
+  width: 100%;
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #ffffff;
+  opacity: 0.4;
+  transform: scale(0.9);
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+
+  white-space: nowrap;             /* une seule ligne */
+  overflow: hidden;                /* cache le surplus */
+  text-overflow: ellipsis;         /* ajoute "..." si trop long */
+}
+
+.roulette-item.center {
+  opacity: 1;
+  transform: scale(1.05);
+  color: #ffcc00;
+}
+
+.roulette-item.highlight {
+  background-color: #f18baa;
+  color: black;
+  font-weight: bold;
+}
+
+/* === LISTE DES FILMS === */
 #movieList {
   list-style: none;
   padding: 1rem;
@@ -264,32 +297,27 @@ body {
   color: #ff2a2a;
 }
 
-/* Responsive appSection */
+
 @media (max-width: 480px) {
-  #appSection {
-    padding: 1rem;
-    width: 100%;
-  }
-
-  .input-wrapper {
-    flex-direction: column;
-  }
-
-  #addButton {
-    width: 100%;
-  }
-
-  #pickedMovie {
-    font-size: 1.1rem;
-    min-width: auto;
-    height: auto;
-    padding: 0.5rem;
-    line-height: 1.4;
+  #authSection h2 {
+    text-align: center;
+    margin-bottom: 1rem;
   }
 }
 
-input:-webkit-autofill {
+/* === AUTOFILL CORRECTIONS === */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
   -webkit-box-shadow: 0 0 0 1000px #152238 inset !important;
   -webkit-text-fill-color: #f0f0f0 !important;
   transition: background-color 5000s ease-in-out 0s;
+  width: 100% !important;
+  box-sizing: border-box;
+}
+
+input:-moz-autofill {
+  box-shadow: 0 0 0 1000px #152238 inset !important;
+  -moz-text-fill-color: #f0f0f0 !important;
+  margin-bottom: 0.75rem !important;
 }

@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Movie Roulette</title>
   <link rel="stylesheet" href="style.css" />
+  <link rel="icon" type="image/png" href="favicon.png">
 </head>
 <body>
   <!-- Zone de connexion -->
@@ -24,15 +25,17 @@
 
     <div class="input-wrapper">
       <input type="text" id="movieInput" placeholder="Add a movie" />
-      <button id="addButton" disabled>Add</button>
+      <button id="addButton" disabled>+</button>
     </div>
 
     <div id="feedback"></div>
 
     <button id="pickButton">🎲 Spin the wheel</button>
 
-    <div id="pickedMovie"></div>
-
+    <div id="rouletteContainer">
+      <div id="rouletteWrapper"></div>
+    </div>
+    
     <ul id="movieList"></ul>
   </div>
 
