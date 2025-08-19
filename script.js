@@ -10,13 +10,13 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCK_gNMX_8QyXP7V-PYI4eQMQXFsYTmbQo",
-  authDomain: "paulmarmol-34a32.firebaseapp.com",
-  databaseURL: "https://paulmarmol-34a32-default-rtdb.europe-west1.firebasedatabase.app",
-  projectId: "paulmarmol-34a32",
-  storageBucket: "paulmarmol-34a32.firebasestorage.app",
-  messagingSenderId: "988753913124",
-  appId: "1:988753913124:web:db9961c90a0d52ee597fb1"
+  apiKey: "AIzaSyCpr95pZ-_cfP6sMZIDkAfvOlftvo2WlRQ",
+  authDomain: "movie-roulette-1fd26.firebaseapp.com",
+  databaseURL: "https://movie-roulette-1fd26-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "movie-roulette-1fd26",
+  storageBucket: "movie-roulette-1fd26.firebasestorage.app",
+  messagingSenderId: "286304984019",
+  appId: "1:286304984019:web:3d9d7c81478f0c3a40ad26"
 };
 
 const app = initializeApp(firebaseConfig);
@@ -216,6 +216,7 @@ function showFeedback(message, success = true) {
   feedback.style.color = success ? "#00ff9d" : "#ff5555";
   setTimeout(() => feedback.textContent = "", 3000);
 }
+
 
 
 
