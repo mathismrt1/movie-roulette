@@ -11,7 +11,7 @@ body {
   box-sizing: border-box;
 }
 
-#spin {
+#back {
   position: fixed;        /* reste en haut à droite même si tu scrolles */
   top: 20px;              /* distance du haut */
   right: 20px;            /* distance de la droite */
@@ -28,7 +28,7 @@ body {
 }
 
 /* effet au survol */
-#spin:hover {
+#back:hover {
   background-color: #1a5e1a; /* un vert un peu plus foncé */
   transform: translateY(-2px); /* petit effet "flottant" */
 }
