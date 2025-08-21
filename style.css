@@ -127,6 +127,7 @@ body {
   border-radius: 5px;     /* coins arrondis */
   cursor: pointer;        /* montre que c'est cliquable */
   font-size: 16px;        /* taille du texte */
+  font-weight: 600;
   box-shadow: 0 4px 6px rgba(0,0,0,0.2); /* légère ombre */
   transition: background-color 0.3s, transform 0.2s;
 }
@@ -352,5 +353,6 @@ input:-moz-autofill {
 #movieList {
   margin-bottom: 0; /* pas d’espace après la liste finale */
 }
+
 
 
