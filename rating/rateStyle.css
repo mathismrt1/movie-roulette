@@ -15,7 +15,7 @@ body {
   position: fixed;        /* reste en haut à droite même si tu scrolles */
   top: 20px;              /* distance du haut */
   right: 20px;            /* distance de la droite */
-  background-color: #228B22; /* vert forêt */
+  background-color: #0B994E; /* vert forêt */
   color: white;           /* texte blanc */
   border: none;           /* pas de bordure par défaut */
   padding: 10px 20px;     /* un peu de marge à l'intérieur */
