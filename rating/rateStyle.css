@@ -11,52 +11,24 @@ body {
   box-sizing: border-box;
 }
 
-#rateSection {
-  background-color: #1b2a42;
-  padding: 2rem;
-  border-radius: 10px;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.5);
-  width: 100%;
-  max-width: 480px;
-  box-sizing: border-box;
+#spin {
+  position: fixed;        /* reste en haut à droite même si tu scrolles */
+  top: 20px;              /* distance du haut */
+  right: 20px;            /* distance de la droite */
+  background-color: #228B22; /* vert forêt */
+  color: white;           /* texte blanc */
+  border: none;           /* pas de bordure par défaut */
+  padding: 10px 20px;     /* un peu de marge à l'intérieur */
+  border-radius: 5px;     /* coins arrondis */
+  cursor: pointer;        /* montre que c'est cliquable */
+  font-size: 16px;        /* taille du texte */
+  font-weight: 600;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.2); /* légère ombre */
+  transition: background-color 0.3s, transform 0.2s;
 }
 
-#rateSection h1 {
-  text-align: center;
-  margin-bottom: 1rem;
-}
-
-#movieList {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-#movieList li {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.5rem 0.75rem;
-  border-bottom: 1px solid #2f3f59;
-  font-size: 1rem;
-}
-
-.rating {
-  display: flex;
-  gap: 0.25rem;
-}
-
-.rating button {
-  background-color: #1e90ff;
-  color: white;
-  border: none;
-  padding: 0.2rem 0.5rem;
-  border-radius: 4px;
-  cursor: pointer;
-  font-weight: bold;
-  transition: background-color 0.2s;
-}
-
-.rating button:hover {
-  background-color: #1573cc;
+/* effet au survol */
+#spin:hover {
+  background-color: #1a5e1a; /* un vert un peu plus foncé */
+  transform: translateY(-2px); /* petit effet "flottant" */
 }
