@@ -2,8 +2,8 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/fireba
 import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
-const spinButton = document.getElementById("spin");
-rateButton.addEventListener("click", () => {
+const backButton = document.getElementById("back");
+backButton.addEventListener("click", () => {
   window.location.href = "../index.html";
 });
 
