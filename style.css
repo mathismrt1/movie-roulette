@@ -115,6 +115,28 @@ body {
   background-color: #cc4a4a;
 }
 
+/* style.css */
+#rate {
+  position: fixed;        /* reste en haut à droite même si tu scrolles */
+  top: 20px;              /* distance du haut */
+  right: 20px;            /* distance de la droite */
+  background-color: #228B22; /* vert forêt */
+  color: white;           /* texte blanc */
+  border: none;           /* pas de bordure par défaut */
+  padding: 10px 20px;     /* un peu de marge à l'intérieur */
+  border-radius: 5px;     /* coins arrondis */
+  cursor: pointer;        /* montre que c'est cliquable */
+  font-size: 16px;        /* taille du texte */
+  box-shadow: 0 4px 6px rgba(0,0,0,0.2); /* légère ombre */
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+/* effet au survol */
+#rate:hover {
+  background-color: #1a5e1a; /* un vert un peu plus foncé */
+  transform: translateY(-2px); /* petit effet "flottant" */
+}
+
 /* === AJOUT DE FILMS === */
 .input-wrapper {
   display: flex;
@@ -330,3 +352,5 @@ input:-moz-autofill {
 #movieList {
   margin-bottom: 0; /* pas d’espace après la liste finale */
 }
+
+
