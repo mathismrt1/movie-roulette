@@ -69,6 +69,12 @@ logoutButton.addEventListener("click", () => {
   signOut(auth);
 });
 
+// Aller sur la page rate.html
+const rateButton = document.getElementById("rate");
+rateButton.addEventListener("click", () => {
+  window.location.href = "rating/rate.html";
+});
+
 // Activer/Désactiver bouton Ajouter selon input
 movieInput.addEventListener("input", () => {
   addButton.disabled = movieInput.value.trim() === "";
@@ -229,6 +235,7 @@ function showFeedback(message, success = true) {
   feedback.style.color = success ? "#00ff9d" : "#ff5555";
   setTimeout(() => feedback.textContent = "", 3000);
 }
+
 
 
 
