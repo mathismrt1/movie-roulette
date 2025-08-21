@@ -51,6 +51,19 @@ loginButton.addEventListener("click", () => {
     .catch(err => alert("Connexion échouée : " + err.message));
 });
 
+// Login avec touche Entrée
+const emailInput = document.getElementById("emailInput");
+const passwordInput = document.getElementById("passwordInput");
+
+function handleEnterKey(e) {
+  if (e.key === "Enter") {
+    loginButton.click();
+  }
+}
+
+emailInput.addEventListener("keydown", handleEnterKey);
+passwordInput.addEventListener("keydown", handleEnterKey);
+
 // Logout
 logoutButton.addEventListener("click", () => {
   signOut(auth);
@@ -216,6 +229,7 @@ function showFeedback(message, success = true) {
   feedback.style.color = success ? "#00ff9d" : "#ff5555";
   setTimeout(() => feedback.textContent = "", 3000);
 }
+
 
 
 
